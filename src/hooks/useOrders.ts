@@ -43,12 +43,12 @@ export function useOrders() {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (role.role === 'operative' || role.role === 'branch_admin') {
-        if (role.sucursal) {
-           console.log('Filtering by sucursal:', role.sucursal);
-           query = query.eq('sucursal', role.sucursal);
-        }
-      }
+      // if (role.role === 'operative' || role.role === 'branch_admin') {
+      //   if (role.sucursal) {
+      //      console.log('Filtering by sucursal:', role.sucursal);
+      //      query = query.eq('sucursal', role.sucursal);
+      //   }
+      // }
 
       const { data, error } = await query;
 
