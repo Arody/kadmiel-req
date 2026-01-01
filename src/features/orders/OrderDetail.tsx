@@ -201,6 +201,9 @@ export function OrderDetail() {
       updateItem.mutate({ itemId, quantity: newQty, orderId: id });
   };
 
+    // Calculate total dynamically from items to ensure real-time accuracy
+    const calculatedTotal = order.items?.reduce((sum: number, item: any) => sum + (item.cantidad * item.precio_unitario), 0) || 0;
+
   return (
     <div className="space-y-6">
        <div className="flex items-center gap-4">
@@ -303,7 +306,7 @@ export function OrderDetail() {
 
                       {/* Abono List & Input */}
                       {order.payment_status === 'abono' && (
-                          <PaymentSection orderId={order.id} total={order.total} paidAmount={order.paid_amount || 0} />
+                              <PaymentSection orderId={order.id} total={calculatedTotal} paidAmount={order.paid_amount || 0} />
                       )}
                   </div>
 
@@ -339,12 +342,12 @@ export function OrderDetail() {
                       </div>
                       <div className="flex justify-between items-center text-lg font-bold">
                           <span>Total</span>
-                          <span>${order.total.toFixed(2)}</span>
+                              <span>${calculatedTotal.toFixed(2)}</span>
                       </div>
                       {order.payment_status === 'abono' && (
                           <div className="flex justify-between items-center text-sm mt-1 text-red-600 font-medium">
                               <span>Restante</span>
-                              <span>${(order.total - (order.paid_amount || 0)).toFixed(2)}</span>
+                                  <span>${(calculatedTotal - (order.paid_amount || 0)).toFixed(2)}</span>
                           </div>
                       )}
                   </div>

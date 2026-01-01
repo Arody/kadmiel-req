@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useProducts, type Product } from '../../hooks/useProducts';
 import { useCreateOrder } from '../../hooks/useCreateOrder';
 import { useProfile } from '../../hooks/useProfile';
@@ -28,6 +28,43 @@ export function NewOrder() {
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('Efectivo');
   const [notes, setNotes] = useState('');
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const savedState = localStorage.getItem('NEW_ORDER_STATE');
+    if (savedState) {
+      try {
+        const parsed = JSON.parse(savedState);
+        setCart(parsed.cart || []);
+        setCustomerName(parsed.customerName || '');
+        setCustomerPhone(parsed.customerPhone || '');
+        setDeliveryDate(parsed.deliveryDate || '');
+        setDeliveryTime(parsed.deliveryTime || '');
+        setDeliveryType(parsed.deliveryType || 'pickup');
+        setDeliveryAddress(parsed.deliveryAddress || '');
+        setPaymentMethod(parsed.paymentMethod || 'Efectivo');
+        setNotes(parsed.notes || '');
+      } catch (e) {
+        console.error("Failed to restore order state", e);
+      }
+    }
+  }, []);
+
+  // Save to localStorage on change
+  useEffect(() => {
+    const stateToSave = {
+      cart,
+      customerName,
+      customerPhone,
+      deliveryDate,
+      deliveryTime,
+      deliveryType,
+      deliveryAddress,
+      paymentMethod,
+      notes
+    };
+    localStorage.setItem('NEW_ORDER_STATE', JSON.stringify(stateToSave));
+  }, [cart, customerName, customerPhone, deliveryDate, deliveryTime, deliveryType, deliveryAddress, paymentMethod, notes]);
 
   const filteredProducts = products?.filter(p => 
     p.nombre.toLowerCase().includes(search.toLowerCase())
@@ -98,6 +135,8 @@ export function NewOrder() {
       setDeliveryTime('');
       setDeliveryAddress('');
       setNotes('');
+      // Clear storage
+      localStorage.removeItem('NEW_ORDER_STATE');
       alert('Orden creada exitosamente');
     } catch (error) {
       console.error(error);
