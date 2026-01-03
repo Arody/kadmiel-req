@@ -264,11 +264,22 @@ function StockRow({ item, onSave, onEdit }: { item: StockItem, onSave: (id: stri
     }
   }
 
+    const isOutOfStock = item.quantity === 0;
+    const isLowStock = item.quantity <= 3 && item.quantity > 0;
+
   return (
-    <div className="flex items-center justify-between p-4 border-b last:border-0 hover:bg-gray-50">
-       <div className="flex-1">
+      <div className={`flex items-center justify-between p-4 border-b last:border-0 hover:bg-gray-50 transition-colors 
+        ${isOutOfStock ? 'bg-red-50 border-l-4 border-l-red-500' : ''}
+        ${isLowStock ? 'bg-yellow-50 border-l-4 border-l-yellow-400' : ''}
+    `}>
+          <div className="flex-1 pl-2">
           <div className="flex items-center gap-2">
-              <h4 className="font-medium text-gray-900">{item.productos?.nombre || `Producto #${item.product_id}`}</h4>
+                  <h4 className={`font-medium ${isOutOfStock ? 'text-red-900' : 'text-gray-900'}`}>
+                      {item.productos?.nombre || `Producto #${item.product_id}`}
+                  </h4>
+                  {isOutOfStock && <span className="text-xs font-bold text-red-600 border border-red-200 bg-red-100 px-2 py-0.5 rounded-full">AGOTADO</span>}
+                  {isLowStock && <span className="text-xs font-bold text-yellow-700 border border-yellow-200 bg-yellow-100 px-2 py-0.5 rounded-full">BAJO STOCK</span>}
+
               <button onClick={() => onEdit(item)} className="text-gray-400 hover:text-blue-600 transition-colors" title="Editar Producto">
                   <Pencil className="h-3 w-3" />
               </button>
@@ -278,7 +289,7 @@ function StockRow({ item, onSave, onEdit }: { item: StockItem, onSave: (id: stri
        <div className="flex items-center gap-3">
           <Input 
              type="number" 
-             className="w-24 text-right" 
+                  className={`w-24 text-right ${isOutOfStock ? 'border-red-300 text-red-900 focus-visible:ring-red-500' : ''}`}
              value={qty} 
              onChange={(e) => setQty(Number(e.target.value))}
           />

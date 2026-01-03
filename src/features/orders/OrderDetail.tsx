@@ -25,6 +25,7 @@ function useOrderDetail(id: string | undefined) {
         .single();
       
       if (orderError) throw orderError;
+        if (!order) throw new Error('Orden no encontrada');
 
       let creatorName = 'Desconocido';
       if (order.created_by) {
@@ -32,7 +33,7 @@ function useOrderDetail(id: string | undefined) {
               .from('profiles')
               .select('full_name')
               .eq('id', order.created_by)
-              .single();
+              .maybeSingle();
           if (profile) creatorName = profile.full_name;
       }
 
@@ -183,7 +184,7 @@ function AddItemSection({ orderId, onCancel }: { orderId: string, onCancel: () =
 export function OrderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: order, isLoading } = useOrderDetail(id);
+    const { data: order, isLoading, error } = useOrderDetail(id);
   const { mutate: updateOrder, isPending: isUpdating } = useUpdateOrder();
   const { updateItem, deleteItem } = useOrderItems();
   const [isAddingItem, setIsAddingItem] = useState(false);
@@ -191,6 +192,16 @@ export function OrderDetail() {
   if (isLoading) {
      return <div className="flex justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
   }
+
+    if (error) {
+        return (
+            <div className="p-8 text-center">
+                <p className="text-red-500 mb-2">Error al cargar la orden.</p>
+                <p className="text-gray-500 text-sm">{(error as Error).message}</p>
+                <Button variant="outline" onClick={() => navigate(-1)} className="mt-4">Regresar</Button>
+            </div>
+        );
+    }
 
   if (!order || !id) {
      return <div className="p-8 text-center text-red-500">Orden no encontrada.</div>;

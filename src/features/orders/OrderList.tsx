@@ -2,9 +2,12 @@
 import { useOrders } from '../../hooks/useOrders';
 
 import { Card, CardContent } from '../../components/ui/card';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
-import { Plus, Loader2, Calendar, MapPin, Phone, DollarSign, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { generateProductionPdf, generateBatchProductionPdf } from '../../utils/pdfGenerator';
+import { supabase } from '../../lib/supabaseClient';
+import { Plus, Loader2, Calendar, MapPin, Phone, DollarSign, RefreshCw, ChevronLeft, ChevronRight, Printer, FileDown } from 'lucide-react';
+// ...
 
 
 import { useState, type ChangeEvent } from 'react';
@@ -15,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { useRecalculateTotals } from '../../hooks/useRecalculateTotals';
 
 export function OrderList() {
+   const navigate = useNavigate();
    const [page, setPage] = useState(1);
    const [statusFilter, setStatusFilter] = useState('all');
    const [paymentFilter, setPaymentFilter] = useState('all');
@@ -34,6 +38,8 @@ export function OrderList() {
 
    const [startDate, setStartDate] = useState(firstDay);
    const [endDate, setEndDate] = useState(lastDay);
+   const [isGeneratingPdf, setIsGeneratingPdf] = useState<string | null>(null);
+   const [isBatchGenerating, setIsBatchGenerating] = useState(false);
 
    // Debounce search could be added here, but for now we pass directly. 
    // Ideally useDebounce for search term to avoid query spam.
@@ -86,15 +92,52 @@ export function OrderList() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">Órdenes de Compra</h1>
         <div className="flex gap-2">
+              <Button
+                 variant="outline"
+                 onClick={async () => {
+                    setIsBatchGenerating(true);
+                    try {
+                       // Replicate filters for fetch
+                       let query = supabase.from('ordenes_compra').select('*');
+
+                       if (searchTerm) {
+                          const isNumeric = !isNaN(Number(searchTerm));
+                          if (isNumeric) {
+                             query = query.or(`folio.eq.${searchTerm},customer_phone.ilike.%${searchTerm}%,total.eq.${searchTerm}`);
+                          } else {
+                             query = query.ilike('customer_name', `%${searchTerm}%`);
+                          }
+                       }
+                       if (statusFilter !== 'all') query = query.eq('status', statusFilter);
+                       if (paymentFilter !== 'all') query = query.eq('payment_status', paymentFilter);
+                       if (startDate) query = query.gte('delivery_date', startDate);
+                       if (endDate) query = query.lte('delivery_date', endDate);
+
+                       const { data, error } = await query.order('created_at', { ascending: false });
+
+                       if (error) throw error;
+                       if (error) throw error;
+                       if (data) await generateBatchProductionPdf(data as any, { start: startDate, end: endDate });
+
+                    } catch (e) {
+                       console.error(e);
+                       alert("Error al generar reporte");
+                    } finally {
+                       setIsBatchGenerating(false);
+                    }
+                 }}
+                 disabled={isBatchGenerating}
+              >
+                 {isBatchGenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileDown className="mr-2 h-4 w-4" />}
+                 Imprimir Filtrados
+              </Button>
             <Button variant="outline" size="icon" onClick={() => refetch()} disabled={isRefetching}>
                 <RefreshCw className={`h-4 w-4 ${isRefetching ? 'animate-spin' : ''}`} />
             </Button>
-            <Link to="/pos">
-              <Button>
+              <Button onClick={() => navigate('/pos')}>
                 <Plus className="mr-2 h-4 w-4" />
                 Nueva Orden
               </Button>
-            </Link>
         </div>
       </div>
 
@@ -217,14 +260,38 @@ export function OrderList() {
                             </div>
                          )}
                       </div>
-                      <div className="text-right flex flex-col items-end gap-2">
+                             <div className="text-right flex flex-col items-end gap-2 sm:w-auto w-full">
                          <div className="text-lg font-bold text-gray-900 flex items-center">
                             <DollarSign className="h-4 w-4 text-gray-400" />
                                    {order.total?.toFixed(2)}
                          </div>
-                         <Link to={`/orders/${order.id}`}>
-                            <Button variant="outline" size="sm">Ver Detalle</Button>
-                         </Link>
+                                <div className="flex flex-col gap-2 w-full sm:w-32">
+                                   <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="w-full"
+                                      onClick={() => navigate(`/orders/${order.id}`)}
+                                   >
+                                      Ver Detalle
+                                   </Button>
+                                   <Button
+                                      variant="secondary"
+                                      size="sm"
+                                      className="w-full"
+                                      onClick={async () => {
+                                         setIsGeneratingPdf(order.id);
+                                         try {
+                                            await generateProductionPdf(order);
+                                         } finally {
+                                            setIsGeneratingPdf(null);
+                                         }
+                                      }}
+                                      disabled={isGeneratingPdf === order.id}
+                                   >
+                                      {isGeneratingPdf === order.id ? <Loader2 className="h-3 w-3 animate-spin mr-2" /> : <Printer className="h-3 w-3 mr-2" />}
+                                      PDF Prod.
+                                   </Button>
+                                </div>
                       </div>
                    </div>
                 </CardContent>

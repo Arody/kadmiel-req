@@ -3,15 +3,16 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useSession } from '../../hooks/useSession';
 import { useProfile } from '../../hooks/useProfile';
 import { useUserRole } from '../../hooks/useUserRole';
+import { useStock } from '../../hooks/useStock';
 import { supabase } from '../../lib/supabaseClient';
 import { 
-
   LayoutDashboard, 
   ShoppingCart, 
   Package, 
   LogOut, 
   Store,
-  Menu
+  Menu,
+  type LucideIcon
 } from 'lucide-react';
 
 import { cn } from '../../lib/utils';
@@ -22,21 +23,37 @@ export function AppShell() {
   const { session } = useSession();
   const { data: profile } = useProfile();
   const { data: userRole } = useUserRole();
+  const { data: stock } = useStock();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Calculate low stock items (<= 3)
+  const lowStockCount = stock?.filter(item => item.quantity <= 3).length || 0;
 
   const handleSignOut = () => {
     supabase.auth.signOut();
   };
 
-  const navItems = [
+  type NavItem = {
+    name: string;
+    href: string;
+    icon: LucideIcon;
+    badge?: number;
+  };
+
+  const navItems: NavItem[] = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Nueva Orden', href: '/pos', icon: ShoppingCart },
     { name: 'Mis Órdenes', href: '/orders', icon: Package },
   ];
 
   if (userRole?.role === 'branch_admin' || userRole?.role === 'super_admin') {
-    navItems.push({ name: 'Inventario', href: '/stock', icon: Store });
+    navItems.push({
+      name: 'Inventario',
+      href: '/stock',
+      icon: Store,
+      badge: lowStockCount > 0 ? lowStockCount : undefined
+    });
   }
 
   // navItems.push({ name: 'Configuración', href: '/settings', icon: Settings });
@@ -61,25 +78,32 @@ export function AppShell() {
         </div>
 
         <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
+          {navItems.map((item: any) => {
             const isActive = location.pathname === item.href;
             return (
               <Link
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors group",
+                  "flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors group justify-between",
                   isActive 
                     ? "bg-gray-900 text-white" 
                     : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                 )}
                 onClick={() => setSidebarOpen(false)}
               >
-                <item.icon className={cn(
-                  "mr-3 h-5 w-5 flex-shrink-0",
-                  isActive ? "text-white" : "text-gray-400 group-hover:text-gray-500"
-                )} />
-                {item.name}
+                <div className="flex items-center">
+                  <item.icon className={cn(
+                    "mr-3 h-5 w-5 flex-shrink-0",
+                    isActive ? "text-white" : "text-gray-400 group-hover:text-gray-500"
+                  )} />
+                  {item.name}
+                </div>
+                {item.badge && (
+                  <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full ml-auto shadow-sm">
+                    {item.badge}
+                  </span>
+                )}
               </Link>
             )
           })}
