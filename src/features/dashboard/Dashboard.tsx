@@ -4,12 +4,13 @@ import { useProfile } from '../../hooks/useProfile';
 import { useUserRole } from '../../hooks/useUserRole';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Plus, DollarSign, Store, Activity, AlertTriangle } from 'lucide-react';
 import { useDashboardStats } from '../../hooks/useDashboardStats';
 import { Loader2 } from 'lucide-react';
 
 export function Dashboard() {
+    const navigate = useNavigate();
   const { data: profile } = useProfile();
   const { data: role } = useUserRole();
   const { data: stats, isLoading } = useDashboardStats();
@@ -24,12 +25,10 @@ export function Dashboard() {
              <p className="text-gray-500 text-sm">Sucursal: <span className="font-semibold text-gray-900">{role?.sucursal}</span></p>
          </div>
          <div className="flex gap-2">
-            <Link to="/pos">
-              <Button className="w-full sm:w-auto">
+                  <Button className="w-full sm:w-auto" onClick={() => navigate('/pos')}>
                 <Plus className="mr-2 h-4 w-4" />
                 Nueva Orden
-              </Button>
-            </Link>
+                  </Button>
          </div>
       </div>
 
