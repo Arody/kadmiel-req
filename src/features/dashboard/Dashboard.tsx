@@ -20,9 +20,9 @@ export function Dashboard() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
          <div>
              <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-               Hola, {profile?.full_name?.split(' ')[0] || 'Usuario'}
+                      <span>Hola, {profile?.full_name?.split(' ')[0] || 'Usuario'}</span>
              </h1>
-             <p className="text-gray-500 text-sm">Sucursal: <span className="font-semibold text-gray-900">{role?.sucursal}</span></p>
+                  <p className="text-gray-500 text-sm"><span>Sucursal: </span><span className="font-semibold text-gray-900">{role?.sucursal}</span></p>
          </div>
          <div className="flex gap-2">
                   <Button className="w-full sm:w-auto" onClick={() => navigate('/pos')}>
@@ -43,7 +43,7 @@ export function Dashboard() {
             <CardContent>
                 {isLoading ? <Loader2 className="h-6 w-6 animate-spin text-green-600"/> : (
                     <div className="text-3xl font-bold text-green-700">
-                      ${stats?.totalSales.toFixed(2) || '0.00'}
+                              <span>${stats?.totalSales.toFixed(2) || '0.00'}</span>
                     </div>
                 )}
                 <p className="text-xs text-green-600 mt-1">Acumulado de órdenes activas</p>
@@ -100,14 +100,14 @@ export function Dashboard() {
                             {stats.stockOverview.map((item: any, idx: number) => (
                                 <tr key={idx} className="group hover:bg-gray-50">
                                     <td className="px-4 py-3">
-                                        <div className="font-medium text-gray-900">{item.productName}</div>
-                                        <div className="text-xs text-gray-400">{item.unit}</div>
+                                        <div className="font-medium text-gray-900"><span>{item.productName}</span></div>
+                                        <div className="text-xs text-gray-400"><span>{item.unit}</span></div>
                                     </td>
                                     <td className="px-4 py-3 text-right text-gray-500">
                                         {item.initialStock}
                                     </td>
                                     <td className="px-4 py-3 text-right text-amber-600 font-medium">
-                                        -{item.sold}
+                                        <span>-{item.sold}</span>
                                     </td>
                                     <td className="px-4 py-3 text-right">
                                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-bold ${
@@ -115,7 +115,7 @@ export function Dashboard() {
                                             item.remaining < 5 ? 'bg-yellow-100 text-yellow-700' :
                                             'bg-blue-50 text-blue-700'
                                         }`}>
-                                            {item.remaining}
+                                            <span>{item.remaining}</span>
                                             {item.remaining <= 0 && <AlertTriangle className="ml-1 h-3 w-3"/>}
                                         </span>
                                     </td>

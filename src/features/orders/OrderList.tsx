@@ -224,18 +224,18 @@ export function OrderList() {
                             <span className="font-mono text-sm font-bold text-gray-500">#{order.folio}</span>
                             <div className="flex gap-2 text-sm">
                                 <span className={`px-2 py-1 rounded-full border text-xs font-medium capitalize ${getStatusColor(order.status)}`}>
-                                    Envío: {order.status === 'pending' ? 'Pendiente' 
+                                         <span>Envío: </span><span>{order.status === 'pending' ? 'Pendiente' 
                                      : order.status === 'delivered' ? 'Entregado'
-                                     : order.status === 'cancelled' ? 'Cancelado' : order.status}
+                                               : order.status === 'cancelled' ? 'Cancelado' : order.status}</span>
                                 </span>
                                 <span className={`px-2 py-1 rounded-full border text-xs font-medium capitalize ${
                                     order.payment_status === 'paid' ? 'bg-green-100 text-green-800 border-green-200' 
                                     : order.payment_status === 'abono' ? 'bg-blue-100 text-blue-800 border-blue-200'
                                     : 'bg-yellow-100 text-yellow-800 border-yellow-200'
                                 }`}>
-                                    Pago: {order.payment_status === 'pending' ? 'Pendiente' 
+                                         <span>Pago: </span><span>{order.payment_status === 'pending' ? 'Pendiente' 
                                      : order.payment_status === 'abono' ? 'Abono' 
-                                     : order.payment_status === 'paid' ? 'Pagado' : order.payment_status}
+                                               : order.payment_status === 'paid' ? 'Pagado' : order.payment_status}</span>
                                 </span>
                             </div>
                          </div>
@@ -243,15 +243,15 @@ export function OrderList() {
                          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-2 text-sm text-gray-500">
                             <div className="flex items-center">
                                <Phone className="mr-1.5 h-3.5 w-3.5" />
-                               {order.customer_phone || 'Sin télefono'}
+                                      <span>{order.customer_phone || 'Sin télefono'}</span>
                             </div>
                             <div className="flex items-center">
                                <Calendar className="mr-1.5 h-3.5 w-3.5" />
-                               {order.delivery_date ? new Date(order.delivery_date).toLocaleDateString() : 'Sin fecha'} {order.delivery_time}
+                                      <span>{order.delivery_date ? new Date(order.delivery_date).toLocaleDateString() : 'Sin fecha'} {order.delivery_time}</span>
                             </div>
                             <div className="flex items-center">
                                <MapPin className="mr-1.5 h-3.5 w-3.5" />
-                               {order.delivery_type === 'pickup' ? 'Recoger en Sucursal' : 'A Domicilio'}
+                                      <span>{order.delivery_type === 'pickup' ? 'Recoger en Sucursal' : 'A Domicilio'}</span>
                             </div>
                          </div>
                          {order.notes && (
@@ -263,7 +263,7 @@ export function OrderList() {
                              <div className="text-right flex flex-col items-end gap-2 sm:w-auto w-full">
                          <div className="text-lg font-bold text-gray-900 flex items-center">
                             <DollarSign className="h-4 w-4 text-gray-400" />
-                                   {order.total?.toFixed(2)}
+                                   <span>{order.total?.toFixed(2)}</span>
                          </div>
                                 <div className="flex flex-col gap-2 w-full sm:w-32">
                                    <Button
