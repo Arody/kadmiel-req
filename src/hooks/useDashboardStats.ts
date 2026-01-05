@@ -35,10 +35,12 @@ export function useDashboardStats(params?: DashboardStatsParams) {
         .eq('sucursal', role.sucursal);
 
       if (startDate) {
-        query = query.gte('delivery_date', startDate);
+        // Use created_at for reliable sales reporting
+        query = query.gte('created_at', `${startDate} 00:00:00`);
       }
       if (endDate) {
-        query = query.lte('delivery_date', endDate);
+        // Ensure we cover the full end day
+        query = query.lte('created_at', `${endDate} 23:59:59`);
       }
 
       const { data: orders, error: ordersError } = await query;
