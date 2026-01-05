@@ -30,7 +30,11 @@ export function useDashboardStats(params?: DashboardStatsParams) {
           delivery_date,
           items:orden_compra_detalles (
             product_id,
-            cantidad
+            cantidad,
+            productos (
+              nombre,
+              empaque
+            )
           )
         `)
         .eq('sucursal', role.sucursal);
@@ -144,9 +148,11 @@ export function useDashboardStats(params?: DashboardStatsParams) {
         totalCollected,
         totalPending,
         totalCancelled,
-          stockOverview
+        stockOverview,
+        ordersInPeriod // Return raw orders for PDF report
       };
     },
     enabled: !!role?.sucursal
   });
 }
+

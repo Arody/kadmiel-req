@@ -5,8 +5,9 @@ import { useUserRole } from '../../hooks/useUserRole';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
-import { Plus, DollarSign, Store, Activity, AlertTriangle, Calendar, CreditCard, Clock, XCircle } from 'lucide-react';
+import { Plus, DollarSign, Store, Activity, AlertTriangle, Calendar, CreditCard, Clock, XCircle, FileText } from 'lucide-react';
 import { useDashboardStats } from '../../hooks/useDashboardStats';
+import { generateSalesReportPdf } from '../../utils/pdfGenerator';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from '../../components/ui/input';
@@ -31,6 +32,16 @@ export function Dashboard() {
     const [endDate, setEndDate] = useState(getEndOfMonth());
 
     const { data: stats, isLoading } = useDashboardStats({ startDate, endDate });
+
+    const handleDownloadReport = async () => {
+        if (stats && stats.ordersInPeriod) {
+            await generateSalesReportPdf(
+                stats,
+                stats.ordersInPeriod,
+                { start: startDate, end: endDate }
+            );
+        }
+    };
 
   return (
     <div className="space-y-6">
@@ -58,6 +69,11 @@ export function Dashboard() {
                           onChange={(e) => setEndDate(e.target.value)}
                       />
                   </div>
+
+                  <Button variant="outline" onClick={handleDownloadReport} disabled={isLoading || !stats?.ordersInPeriod?.length}>
+                      <FileText className="mr-2 h-4 w-4" />
+                      Reporte PDF
+                  </Button>
 
                   <Button className="w-full sm:w-auto" onClick={() => navigate('/pos')}>
                 <Plus className="mr-2 h-4 w-4" />

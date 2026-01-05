@@ -299,3 +299,158 @@ export async function generateBatchProductionPdf(orders: Order[], dateRange?: { 
         alert("Error al generar reporte consolidado");
     }
 }
+
+// Sales Report Generator
+export async function generateSalesReportPdf(
+    stats: { totalSales: number, totalCollected: number, totalPending: number, totalCancelled: number },
+    orders: any[],
+    dateRange: { start: string, end: string }
+) {
+    if (!orders || orders.length === 0) {
+        alert("No hay datos para generar el reporte");
+        return;
+    }
+
+    const doc = new jsPDF(PDF_CONFIG);
+    let cursorY = 15;
+
+    // 1. Header
+    doc.setFontSize(16);
+    doc.text('REPORTE DE VENTAS', 140 / 2, cursorY, { align: 'center' });
+    cursorY += 7;
+
+    doc.setFontSize(10);
+    doc.text(`Periodo: ${dateRange.start} - ${dateRange.end}`, 140 / 2, cursorY, { align: 'center' });
+    cursorY += 10;
+
+    // 2. Financial Summary Cards (Simulated with Rects)
+    const cardWidth = 55; // Slightly wider for better fit
+    const cardHeight = 20;
+    const gap = 5;
+    const startX = 12;
+
+    // Row 1
+    // Total Sales
+    doc.setFillColor(240, 255, 240); // Light Green
+    doc.rect(startX, cursorY, cardWidth, cardHeight, 'F');
+    doc.setFontSize(9);
+    doc.text("Ventas Totales", startX + 2, cursorY + 5);
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text(`$${stats.totalSales.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`, startX + 2, cursorY + 15);
+
+    // Income
+    doc.setFillColor(240, 240, 255); // Light Blue
+    doc.rect(startX + cardWidth + gap, cursorY, cardWidth, cardHeight, 'F');
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("Ingresos Reales", startX + cardWidth + gap + 2, cursorY + 5);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(`$${stats.totalCollected.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`, startX + cardWidth + gap + 2, cursorY + 15);
+
+    cursorY += cardHeight + gap;
+
+    // Row 2
+    // Pending (Global)
+    doc.setFillColor(255, 245, 235); // Light Orange
+    doc.rect(startX, cursorY, cardWidth, cardHeight, 'F');
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("Por Cobrar (Global)", startX + 2, cursorY + 5);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(`$${stats.totalPending.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`, startX + 2, cursorY + 15);
+
+    // Cancelled
+    doc.setFillColor(245, 245, 245); // Light Gray
+    doc.rect(startX + cardWidth + gap, cursorY, cardWidth, cardHeight, 'F');
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("Cancelados", startX + cardWidth + gap + 2, cursorY + 5);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(`$${stats.totalCancelled.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`, startX + cardWidth + gap + 2, cursorY + 15);
+
+    cursorY += cardHeight + 15;
+
+
+    // 3. Daily Breakdown Logic
+    // Group by Day -> Then by Product
+    const salesByDay: Record<string, Record<string, { qty: number, unit: string }>> = {};
+
+    orders.forEach(order => {
+        if (order.status === 'cancelled') return;
+
+        // Use created_at for date grouping
+        // Handle potentially missing created_at, fallback to today
+        const dateStr = order.created_at || new Date().toISOString();
+        const day = new Date(dateStr).toLocaleDateString('es-MX', {
+            year: 'numeric', month: '2-digit', day: '2-digit'
+        }); // DD/MM/YYYY
+
+        if (!salesByDay[day]) salesByDay[day] = {};
+
+        // Process Items
+        // @ts-ignore
+        order.items?.forEach((item: any) => {
+            // Handle product array structure (Supabase join can be array or object)
+            const prod = Array.isArray(item.productos) ? item.productos[0] : (item.productos || {});
+            // Fallback for missing product name (deleted products?)
+            const prodName = prod.nombre || 'Producto Desconocido';
+
+            if (!salesByDay[day][prodName]) {
+                salesByDay[day][prodName] = { qty: 0, unit: prod.empaque || 'pza' };
+            }
+            salesByDay[day][prodName].qty += (item.cantidad || 0);
+        });
+    });
+
+    // Flatten for AutoTable
+    const tableRows: any[] = [];
+
+    // Sort Dates
+    const sortedDays = Object.keys(salesByDay).sort((a, b) => {
+        // Parse DD/MM/YYYY to compare
+        const [d1, m1, y1] = a.split('/').map(Number);
+        const [d2, m2, y2] = b.split('/').map(Number);
+        return new Date(y1, m1 - 1, d1).getTime() - new Date(y2, m2 - 1, d2).getTime();
+    });
+
+    sortedDays.forEach(day => {
+        const products = salesByDay[day];
+        const entries = Object.entries(products);
+
+        // Add Day Header
+        // Using colSpan doesn't work perfectly in simple autotable, so we use a styled row
+        tableRows.push([{ content: day, colSpan: 3, styles: { fontStyle: 'bold', fillColor: [230, 230, 230], halign: 'center' } }]);
+
+        entries.forEach(([prodName, data]) => {
+            tableRows.push([
+                prodName,
+                data.qty,
+                data.unit
+            ]);
+        });
+    });
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text("Desglose Diario de Ventas (Roscas)", 10, cursorY - 3);
+
+    autoTable(doc, {
+        startY: cursorY,
+        head: [['Producto', 'Cantidad', 'Unidad']],
+        body: tableRows,
+        styles: { fontSize: 9, valign: 'middle' },
+        theme: 'grid',
+        headStyles: { fillColor: [50, 50, 50] },
+        columnStyles: {
+            0: { cellWidth: 'auto' },
+            1: { cellWidth: 25, halign: 'center', fontStyle: 'bold' },
+            2: { cellWidth: 25 }
+        }
+    });
+
+    doc.save(`Reporte_Ventas_${dateRange.start}_${dateRange.end}.pdf`);
+}
