@@ -5,26 +5,60 @@ import { useUserRole } from '../../hooks/useUserRole';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
-import { Plus, DollarSign, Store, Activity, AlertTriangle } from 'lucide-react';
+import { Plus, DollarSign, Store, Activity, AlertTriangle, Calendar, CreditCard, Clock, XCircle } from 'lucide-react';
 import { useDashboardStats } from '../../hooks/useDashboardStats';
 import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { Input } from '../../components/ui/input';
+
+// Helper for default dates (Same as OrderList)
+const getStartOfMonth = () => {
+    const date = new Date();
+    return new Date(date.getFullYear(), date.getMonth(), 1).toISOString().split('T')[0];
+};
+
+const getEndOfMonth = () => {
+    const date = new Date();
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).toISOString().split('T')[0];
+};
 
 export function Dashboard() {
     const navigate = useNavigate();
   const { data: profile } = useProfile();
   const { data: role } = useUserRole();
-  const { data: stats, isLoading } = useDashboardStats();
+
+    const [startDate, setStartDate] = useState(getStartOfMonth());
+    const [endDate, setEndDate] = useState(getEndOfMonth());
+
+    const { data: stats, isLoading } = useDashboardStats({ startDate, endDate });
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
          <div>
              <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-                      <span>Hola, {profile?.full_name?.split(' ')[0] || 'Usuario'}</span>
+                      Hola, {profile?.full_name?.split(' ')[0] || 'Usuario'}
              </h1>
-                  <p className="text-gray-500 text-sm"><span>Sucursal: </span><span className="font-semibold text-gray-900">{role?.sucursal}</span></p>
+                  <p className="text-gray-500 text-sm">Sucursal: <span className="font-semibold text-gray-900">{role?.sucursal}</span></p>
          </div>
-         <div className="flex gap-2">
+              <div className="flex gap-2 items-center flex-wrap">
+                  <div className="flex items-center gap-2 bg-white border rounded-md p-1 shadow-sm">
+                      <Calendar className="h-4 w-4 text-gray-500 ml-2" />
+                      <Input
+                          type="date"
+                          className="h-8 w-36 border-0 focus-visible:ring-0 p-0 text-sm"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                      />
+                      <span className="text-gray-400">-</span>
+                      <Input
+                          type="date"
+                          className="h-8 w-36 border-0 focus-visible:ring-0 p-0 text-sm"
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                      />
+                  </div>
+
                   <Button className="w-full sm:w-auto" onClick={() => navigate('/pos')}>
                 <Plus className="mr-2 h-4 w-4" />
                 Nueva Orden
@@ -32,8 +66,8 @@ export function Dashboard() {
          </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-         {/* Sales Card */}
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {/* Total Sales */}
          <Card className="bg-gradient-to-br from-green-50 to-white border-green-100">
             <CardHeader className="pb-2">
                <CardTitle className="text-sm font-medium text-green-800 flex items-center gap-2">
@@ -42,16 +76,69 @@ export function Dashboard() {
             </CardHeader>
             <CardContent>
                 {isLoading ? <Loader2 className="h-6 w-6 animate-spin text-green-600"/> : (
-                    <div className="text-3xl font-bold text-green-700">
-                              <span>${stats?.totalSales.toFixed(2) || '0.00'}</span>
+                          <div className="text-2xl font-bold text-green-700">
+                              ${stats?.totalSales?.toLocaleString('es-MX', { minimumFractionDigits: 2 }) || '0.00'}
+                          </div>
+                      )}
+                      <p className="text-xs text-green-600 mt-1">Acumulado del periodo</p>
+                  </CardContent>
+              </Card>
+
+              {/* Collected (Ingreso) */}
+              <Card className="bg-gradient-to-br from-blue-50 to-white border-blue-100">
+                  <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-medium text-blue-800 flex items-center gap-2">
+                          <CreditCard className="h-4 w-4" /> Ingresos Reales
+                      </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      {isLoading ? <Loader2 className="h-6 w-6 animate-spin text-blue-600" /> : (
+                          <div className="text-2xl font-bold text-blue-700">
+                              ${stats?.totalCollected?.toLocaleString('es-MX', { minimumFractionDigits: 2 }) || '0.00'}
+                          </div>
+                      )}
+                      <p className="text-xs text-blue-600 mt-1">Cobrado efectivamente</p>
+                  </CardContent>
+              </Card>
+
+              {/* Pending (Pendiente) */}
+              <Card className="bg-gradient-to-br from-orange-50 to-white border-orange-100">
+                  <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-medium text-orange-800 flex items-center gap-2">
+                          <Clock className="h-4 w-4" /> Por Cobrar
+                      </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      {isLoading ? <Loader2 className="h-6 w-6 animate-spin text-orange-600" /> : (
+                          <div className="text-2xl font-bold text-orange-700">
+                              ${stats?.totalPending?.toLocaleString('es-MX', { minimumFractionDigits: 2 }) || '0.00'}
+                          </div>
+                      )}
+                      <p className="text-xs text-orange-600 mt-1">Saldo pendiente</p>
+                  </CardContent>
+              </Card>
+
+              {/* Cancelled */}
+              <Card className="bg-gradient-to-br from-gray-50 to-white border-gray-200">
+                  <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                          <XCircle className="h-4 w-4" /> Cancelados
+                      </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      {isLoading ? <Loader2 className="h-6 w-6 animate-spin text-gray-400" /> : (
+                          <div className="text-2xl font-bold text-gray-700">
+                              ${stats?.totalCancelled?.toLocaleString('es-MX', { minimumFractionDigits: 2 }) || '0.00'}
                     </div>
                 )}
-                <p className="text-xs text-green-600 mt-1">Acumulado de órdenes activas</p>
+                      <p className="text-xs text-gray-500 mt-1">Monto en órdenes canceladas</p>
             </CardContent>
          </Card>
-         
-         {/* Quick Actions - Kept but refined */}
-         <Card>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {/* Quick Actions */}
+              <Card className="md:col-span-3 lg:col-span-1">
             <CardHeader className="pb-2">
                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
                   <Activity className="h-4 w-4"/> Acciones Rápidas
