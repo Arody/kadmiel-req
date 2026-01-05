@@ -40,6 +40,7 @@ export function useCreateOrder() {
           delivery_address: params.delivery_address,
           payment_method: params.payment_method,
           payment_status: params.payment_status || 'pending',
+          paid_amount: (params.payment_status === 'paid') ? params.total : 0, // Auto-set paid_amount if paid
           total: params.total,
           created_by: params.created_by,
           status: 'pending',

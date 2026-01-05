@@ -17,7 +17,7 @@ export function useDashboardStats(params?: DashboardStatsParams) {
     queryFn: async () => {
       if (!role?.sucursal) return null;
 
-      // 1. Fetch Orders (All statuses to calculate Cancelled too)
+      // 1. Fetch Orders in Period (Sales, Collected, Cancelled)
       let query = supabase
         .from('ordenes_compra')
         .select(`
@@ -25,6 +25,7 @@ export function useDashboardStats(params?: DashboardStatsParams) {
           total,
           status,
           paid_amount,
+          payment_status,
           created_at,
           delivery_date,
           items:orden_compra_detalles (
@@ -43,11 +44,21 @@ export function useDashboardStats(params?: DashboardStatsParams) {
         query = query.lte('created_at', `${endDate} 23:59:59`);
       }
 
-      const { data: orders, error: ordersError } = await query;
-
+      const { data: ordersInPeriod, error: ordersError } = await query;
       if (ordersError) throw ordersError;
 
-      // 2. Fetch Stock (Base Inventory)
+      // 2. Fetch GLOBAL Pending Orders (Receivables - No Date Filter)
+      // We want everything that is NOT paid and NOT cancelled
+      const { data: globalPendingOrders, error: pendingError } = await supabase
+        .from('ordenes_compra')
+        .select('total, paid_amount')
+        .eq('sucursal', role.sucursal)
+        .neq('status', 'cancelled')
+        .neq('payment_status', 'paid');
+
+      if (pendingError) throw pendingError;
+
+      // 3. Fetch Stock (Base Inventory)
       const { data: stock, error: stockError } = await supabase
         .from('branch_stock')
         .select(`
@@ -63,8 +74,8 @@ export function useDashboardStats(params?: DashboardStatsParams) {
 
       if (stockError) throw stockError;
 
-      // 3. Calculate Totals
-      if (!orders || !stock) return {
+      // 4. Calculate Totals
+      if (!ordersInPeriod || !stock) return {
         totalSales: 0,
         totalCollected: 0,
         totalPending: 0,
@@ -73,24 +84,31 @@ export function useDashboardStats(params?: DashboardStatsParams) {
       };
 
       let totalSales = 0;
-      let totalCollected = 0;
-      let totalPending = 0;
+      let totalCollected = 0; // Collected ON PERIOD orders
       let totalCancelled = 0;
 
       const soldMap = new Map<number, number>();
 
-      orders.forEach(order => {
-        // Stats Calculation
+      // A. Process Period Orders
+      ordersInPeriod?.forEach(order => {
         if (order.status === 'cancelled') {
           totalCancelled += (order.total || 0);
         } else {
-          // Active Orders
+          // Active Orders in Period
           totalSales += (order.total || 0);
-          totalCollected += (order.paid_amount || 0);
-          const pending = (order.total || 0) - (order.paid_amount || 0);
-          totalPending += Math.max(0, pending); // Ensure no negative pending
 
-        // Stock Usage (Only active orders count against stock)
+          // Calculate Collected: 
+          // If marked as PAID, trust the total (handles legacy 0 paid_amount).
+          // Otherwise use partial paid_amount.
+          if (order.payment_status === 'paid') {
+            totalCollected += (order.total || 0);
+          } else {
+            totalCollected += (order.paid_amount || 0);
+          }
+
+          // Note: Pending is calculated globally now
+
+          // Stock Usage
            // @ts-ignore
            order.items?.forEach((item: any) => {
              const pid = item.product_id;
@@ -100,8 +118,17 @@ export function useDashboardStats(params?: DashboardStatsParams) {
          }
       });
 
+      // B. Process Global Receivables
+      const totalPending = globalPendingOrders?.reduce((sum, order) => {
+        // If explicitly paid, debt is 0 (double check against filter, but safer)
+        // The filter .neq('payment_status', 'paid') handles it, but let's be robust
+        const debt = (order.total || 0) - (order.paid_amount || 0);
+        return sum + Math.max(0, debt);
+      }, 0) || 0;
+
+
       // Build Overview
-      const stockOverview = stock.map(s => {
+      const stockOverview = stock?.map(s => {
           const sold = soldMap.get(s.product_id) || 0;
           return {
               productName: Array.isArray(s.productos) ? s.productos[0]?.nombre : (s.productos as any)?.nombre,
@@ -110,7 +137,7 @@ export function useDashboardStats(params?: DashboardStatsParams) {
               sold: sold,
               remaining: s.quantity - sold
           };
-      });
+      }) || [];
 
       return {
           totalSales,
