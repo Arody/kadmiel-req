@@ -17,6 +17,8 @@ export type CreateProductParams = {
   campaign_id?: number | null;
   is_active?: boolean;
   imageFile?: File | null;
+  category_id?: string;
+  subcategory_id?: string;
 };
 
 export function useCreateProduct() {
@@ -73,8 +75,11 @@ export function useCreateProduct() {
             tipo: params.tipo || 'Panadería mexicana',
             descripcion_venta: params.descripcion_venta || params.descripcion || params.nombre,
             imagen_url: finalImageUrl,
+          imagen_url: finalImageUrl,
             campaign_id: params.campaign_id,
-            is_active: params.is_active ?? true
+          is_active: params.is_active ?? true,
+          category_id: params.category_id,
+          subcategory_id: params.subcategory_id
         })
         .select()
         .single();

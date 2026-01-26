@@ -13,7 +13,7 @@ import { Label } from '../../components/ui/label';
 import { useCampaigns } from '../../hooks/useCampaigns';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { PRODUCT_CATEGORIES } from '../../constants/productCategories';
+import { useProductCategories } from '../../hooks/useProductCategories';
 
 // --- Product Dialog Component (Shared for Create/Edit) ---
 type ProductDialogProps = {
@@ -37,8 +37,10 @@ function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps
       precio: '',
       descripcion: '',
       catalogo: 'General',
-      categoria: Object.keys(PRODUCT_CATEGORIES)[0],
-      subcategoria: PRODUCT_CATEGORIES[Object.keys(PRODUCT_CATEGORIES)[0]][0],
+      categoria: '',
+      subcategoria: '',
+      category_id: '',
+      subcategory_id: '',
       tipo: '-',
       campaign_id: '',
       is_active: true
@@ -46,6 +48,7 @@ function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps
 
   const [formData, setFormData] = useState(initialFormState);
   const [imageFile, setImageFile] = useState<File | null>(null);
+    const { data: categories = [], isLoading: isLoadingCategories } = useProductCategories();
 
   // Load data when editing
   useEffect(() => {
@@ -57,17 +60,33 @@ function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps
               precio: p.productos?.precio || '',
               descripcion: p.productos?.descripcion || '',
               catalogo: p.productos?.catalogo || 'General',
-               categoria: p.productos?.categoria || Object.keys(PRODUCT_CATEGORIES)[0],
-               subcategoria: p.productos?.subcategoria || (PRODUCT_CATEGORIES[p.productos?.categoria || Object.keys(PRODUCT_CATEGORIES)[0]]?.[0] || ''),
+               categoria: p.productos?.categoria || '',
+               subcategoria: p.productos?.subcategoria || '',
+               category_id: p.productos?.category_id || '',
+               subcategory_id: p.productos?.subcategory_id || '',
                tipo: p.productos?.tipo || '-',
               campaign_id: p.productos?.campaign_id || '',
               is_active: p.productos?.is_active ?? true
            });
       } else {
-          setFormData(initialFormState);
+          // Set default category if available
+          if (categories.length > 0 && !formData.categoria) {
+              const firstCat = categories[0];
+              const firstSub = firstCat.subcategories[0];
+              setFormData(prev => ({
+                  ...prev,
+                  ...initialFormState,
+                  categoria: firstCat.name,
+                  category_id: firstCat.id,
+                  subcategoria: firstSub?.name || '',
+                  subcategory_id: firstSub?.id || ''
+              }));
+          } else {
+                setFormData(initialFormState);
+            }
       }
       setImageFile(null);
-  }, [productToEdit, open]);
+  }, [productToEdit, open, categories]); // Added categories dependency to set default
 
   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -86,6 +105,8 @@ function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps
           catalogo: formData.catalogo,
           categoria: formData.categoria,
           subcategoria: formData.subcategoria,
+          category_id: formData.category_id || undefined,
+          subcategory_id: formData.subcategory_id || undefined,
           tipo: formData.tipo,
           campaign_id: formData.campaign_id ? Number(formData.campaign_id) : null,
           is_active: formData.is_active,
@@ -204,40 +225,58 @@ function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps
                     </div>
                     <div className="space-y-2">
                         <Label>Categoría</Label>
-                          <select
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            value={formData.categoria}
-                              onChange={(e) => {
-                                  const newCat = e.target.value;
-                                  const subcats = PRODUCT_CATEGORIES[newCat] || [];
-                                  setFormData({
-                                      ...formData,
-                                      categoria: newCat,
-                                      subcategoria: subcats[0] || '',
-                                  });
-                              }}
-                          >
-                              {Object.keys(PRODUCT_CATEGORIES).map(cat => (
-                                  <option key={cat} value={cat}>{cat}</option>
-                              ))}
-                              {formData.categoria && !PRODUCT_CATEGORIES[formData.categoria] && (
-                                  <option value={formData.categoria}>{formData.categoria}</option>
-                              )}
-                          </select>
+                          {isLoadingCategories ? (
+                              <div className="text-sm text-gray-500">Cargando categorías...</div>
+                          ) : (
+                                  <select
+                                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                      value={formData.category_id || ''}
+                                      onChange={(e) => {
+                                      const newCatId = e.target.value;
+                                      const newCat = categories.find(c => c.id === newCatId);
+                                      const subcats = newCat?.subcategories || [];
+                                      const firstSub = subcats[0];
+
+                                      setFormData({
+                                          ...formData,
+                                          categoria: newCat?.name || '',
+                                          category_id: newCatId,
+                                          subcategoria: firstSub?.name || '',
+                                          subcategory_id: firstSub?.id || '',
+                                      });
+                                      }}
+                                  >
+                                      <option value="" disabled>Seleccionar Categoría</option>
+                                      {categories.map(cat => (
+                                          <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                      ))}
+                                  </select>
+                          )}
                     </div>
                     <div className="space-y-2">
                         <Label>Subcategoría</Label>
                           <select
                               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            value={formData.subcategoria}
-                            onChange={(e) => setFormData({...formData, subcategoria: e.target.value})}
+                              value={formData.subcategory_id || ''}
+                              onChange={(e) => {
+                                  const newSubId = e.target.value;
+                                  const currentCat = categories.find(c => c.id === formData.category_id);
+                                  const newSub = currentCat?.subcategories.find(s => s.id === newSubId);
+
+                                  setFormData({
+                                      ...formData,
+                                      subcategoria: newSub?.name || '',
+                                      subcategory_id: newSubId
+                                  })
+                              }}
+                              disabled={!formData.category_id}
                           >
-                              {(PRODUCT_CATEGORIES[formData.categoria] || []).map(sub => (
-                                  <option key={sub} value={sub}>{sub}</option>
-                              ))}
-                              {formData.subcategoria && !(PRODUCT_CATEGORIES[formData.categoria] || []).includes(formData.subcategoria) && (
-                                  <option value={formData.subcategoria}>{formData.subcategoria}</option>
-                              )}
+                              <option value="" disabled>Seleccionar Subcategoría</option>
+                              {categories
+                                  .find(c => c.id === formData.category_id)
+                                  ?.subcategories.map(sub => (
+                                      <option key={sub.id} value={sub.id}>{sub.name}</option>
+                                ))}
                           </select>
                     </div>
                     <div className="space-y-2">

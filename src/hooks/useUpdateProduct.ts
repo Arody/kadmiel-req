@@ -18,6 +18,8 @@ export type UpdateProductParams = {
   campaign_id?: number | null;
   is_active?: boolean;
   imageFile?: File | null;
+  category_id?: string;
+  subcategory_id?: string;
 };
 
 export function useUpdateProduct() {
@@ -89,6 +91,8 @@ export function useUpdateProduct() {
       if (finalImageUrl !== undefined) updates.imagen_url = finalImageUrl;
       if (params.campaign_id !== undefined) updates.campaign_id = params.campaign_id;
       if (params.is_active !== undefined) updates.is_active = params.is_active;
+      if (params.category_id !== undefined) updates.category_id = params.category_id;
+      if (params.subcategory_id !== undefined) updates.subcategory_id = params.subcategory_id;
 
       const { data, error } = await supabase
         .from('productos')
