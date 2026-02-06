@@ -74,7 +74,6 @@ export function useCreateProduct() {
             subcategoria: params.subcategoria || 'Pan Dulce',
             tipo: params.tipo || 'Panadería mexicana',
             descripcion_venta: params.descripcion_venta || params.descripcion || params.nombre,
-            imagen_url: finalImageUrl,
           imagen_url: finalImageUrl,
             campaign_id: params.campaign_id,
           is_active: params.is_active ?? true,
