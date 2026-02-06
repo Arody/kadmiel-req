@@ -14,14 +14,15 @@ import { useState, type ChangeEvent } from 'react';
 import { Input } from '../../components/ui/input';
 import { Search } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
-
 import { useRecalculateTotals } from '../../hooks/useRecalculateTotals';
+import { useProductCategories } from '../../hooks/useProductCategories';
 
 export function OrderList() {
    const navigate = useNavigate();
    const [page, setPage] = useState(1);
    const [statusFilter, setStatusFilter] = useState('all');
    const [paymentFilter, setPaymentFilter] = useState('all');
+   const [categoryFilter, setCategoryFilter] = useState('all');
    const [searchTerm, setSearchTerm] = useState('');
 
    // Initialize dates to current month (Local Time)
@@ -51,8 +52,11 @@ export function OrderList() {
       status: statusFilter,
       paymentStatus: paymentFilter,
       fromDate: startDate,
-      toDate: endDate
+      toDate: endDate,
+      categoryId: categoryFilter
    });
+
+   const { data: categories = [] } = useProductCategories();
 
    const orders = queryData?.data;
    const totalCount = queryData?.count || 0;
@@ -112,6 +116,22 @@ export function OrderList() {
                        if (paymentFilter !== 'all') query = query.eq('payment_status', paymentFilter);
                        if (startDate) query = query.gte('delivery_date', startDate);
                        if (endDate) query = query.lte('delivery_date', endDate);
+
+                       // If category filter is active, get order IDs with products in that category
+                       if (categoryFilter !== 'all') {
+                          const { data: itemsData } = await supabase
+                             .from('orden_compra_detalles')
+                             .select('order_id, productos!inner(category_id)')
+                             .eq('productos.category_id', categoryFilter);
+
+                          if (itemsData && itemsData.length > 0) {
+                             const orderIds = [...new Set(itemsData.map(item => item.order_id))];
+                             query = query.in('id', orderIds);
+                          } else {
+                             // No orders match the category filter
+                             return;
+                          }
+                       }
 
                        const { data, error } = await query.order('created_at', { ascending: false });
 
@@ -197,6 +217,20 @@ export function OrderList() {
                        <SelectItem value="pending">Pendiente</SelectItem>
                        <SelectItem value="abono">Abono</SelectItem>
                        <SelectItem value="paid">Pagado</SelectItem>
+                    </SelectContent>
+                 </Select>
+              </div>
+
+              <div className="w-[240px]">
+                 <Select value={categoryFilter} onValueChange={(val: string) => { setCategoryFilter(val); setPage(1); }}>
+                    <SelectTrigger className="bg-white">
+                       <SelectValue placeholder="Categoría" />
+                    </SelectTrigger>
+                    <SelectContent>
+                       <SelectItem value="all">Todas las Categorías</SelectItem>
+                       {categories.map((cat) => (
+                          <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                       ))}
                     </SelectContent>
                  </Select>
               </div>

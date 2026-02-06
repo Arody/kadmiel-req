@@ -33,15 +33,16 @@ export type UseOrdersParams = {
   paymentStatus?: string; // 'all' | 'paid' | ...
   fromDate?: string;
   toDate?: string;
+  categoryId?: string; // Filter by product category
 };
 
 export function useOrders(params: UseOrdersParams = {}) {
   const { session } = useSession();
   const { data: role } = useUserRole();
-  const { page = 1, pageSize = 10, search = '', status = 'all', paymentStatus = 'all', fromDate, toDate } = params;
+  const { page = 1, pageSize = 10, search = '', status = 'all', paymentStatus = 'all', fromDate, toDate, categoryId } = params;
 
   return useQuery({
-    queryKey: ['orders', role?.sucursal, role?.role, page, pageSize, search, status, paymentStatus, fromDate, toDate],
+    queryKey: ['orders', role?.sucursal, role?.role, page, pageSize, search, status, paymentStatus, fromDate, toDate, categoryId],
     queryFn: async () => {
       // console.log('Fetching orders. Role:', role, 'Params:', params);
       if (!session?.user.id || !role) {
@@ -49,9 +50,39 @@ export function useOrders(params: UseOrdersParams = {}) {
         return { data: [], count: 0 };
       }
 
+      // If category filter is active, first get order IDs that have items with products in that category
+      let orderIdsWithCategory: string[] | null = null;
+      if (categoryId && categoryId !== 'all') {
+        const { data: itemsData, error: itemsError } = await supabase
+          .from('orden_compra_detalles')
+          .select(`
+            order_id,
+            productos!inner(category_id)
+          `)
+          .eq('productos.category_id', categoryId);
+
+        if (itemsError) {
+          console.error('Error fetching category filter:', itemsError);
+          throw itemsError;
+        }
+
+        // Extract unique order IDs
+        orderIdsWithCategory = [...new Set((itemsData || []).map(item => item.order_id))];
+
+        // If no orders match, return empty result early
+        if (orderIdsWithCategory.length === 0) {
+          return { data: [], count: 0 };
+        }
+      }
+
       let query = supabase
         .from('ordenes_compra')
         .select('*', { count: 'exact' });
+
+      // Apply category filter if we have matching order IDs
+      if (orderIdsWithCategory) {
+        query = query.in('id', orderIdsWithCategory);
+      }
 
       // 1. Search (Case insensitive partial match)
       if (search) {
