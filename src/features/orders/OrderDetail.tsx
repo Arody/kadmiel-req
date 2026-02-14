@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { ArrowLeft, Calendar, Loader2, MapPin, User, Trash2, Plus, Minus, Search, X } from 'lucide-react';
+import { ArrowLeft, Calendar, Loader2, MapPin, User, Trash2, Plus, Minus, Search, X, Pencil, Save } from 'lucide-react';
 import { type Order } from '../../hooks/useOrders';
 import { useUpdateOrder } from '../../hooks/useUpdateOrder';
 import { useState } from 'react';
@@ -188,6 +188,8 @@ export function OrderDetail() {
   const { mutate: updateOrder, isPending: isUpdating } = useUpdateOrder();
   const { updateItem, deleteItem } = useOrderItems();
   const [isAddingItem, setIsAddingItem] = useState(false);
+    const [isEditingNotes, setIsEditingNotes] = useState(false);
+    const [tempNotes, setTempNotes] = useState('');
 
   if (isLoading) {
      return <div className="flex justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
@@ -266,12 +268,57 @@ export function OrderDetail() {
                    </div>
                 </div>
 
-                {order.notes && (
-                    <div className="bg-yellow-50 p-3 rounded-md border border-yellow-100 mt-4">
-                        <h4 className="font-semibold text-gray-900 text-xs mb-1">Notas</h4>
-                        <p className="text-gray-700 text-sm">{order.notes}</p>
+                      <div className="bg-yellow-50 p-3 rounded-md border border-yellow-100 mt-4">
+                          <div className="flex items-center justify-between mb-2">
+                              <h4 className="font-semibold text-gray-900 text-xs">Notas</h4>
+                              {!isEditingNotes ? (
+                                  <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-6 w-6 p-0 hover:bg-yellow-200"
+                                      onClick={() => {
+                                          setTempNotes(order.notes || '');
+                                          setIsEditingNotes(true);
+                                      }}
+                                  >
+                                      <Pencil className="h-3.5 w-3.5 text-gray-500" />
+                                  </Button>
+                              ) : (
+                                  <div className="flex gap-1">
+                                      <Button
+                                          variant="ghost"
+                                          size="sm"
+                                          className="h-6 w-6 p-0 hover:bg-green-200 text-green-600"
+                                          onClick={() => {
+                                              updateOrder({ id: order.id, notes: tempNotes });
+                                              setIsEditingNotes(false);
+                                          }}
+                                      >
+                                          <Save className="h-3.5 w-3.5" />
+                                      </Button>
+                                      <Button
+                                          variant="ghost"
+                                          size="sm"
+                                          className="h-6 w-6 p-0 hover:bg-red-200 text-red-600"
+                                          onClick={() => setIsEditingNotes(false)}
+                                      >
+                                          <X className="h-3.5 w-3.5" />
+                                      </Button>
+                                  </div>
+                              )}
                     </div>
-                )}
+
+                          {isEditingNotes ? (
+                              <textarea
+                                  className="flex min-h-[80px] w-full rounded-md border border-yellow-200 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-yellow-400 disabled:cursor-not-allowed disabled:opacity-50"
+                                  value={tempNotes}
+                                  onChange={(e) => setTempNotes(e.target.value)}
+                                  placeholder="Escribe notas aquí..."
+                              />
+                          ) : (
+                              <p className="text-gray-700 text-sm whitespace-pre-wrap">{order.notes || <span className="text-gray-400 italic">Sin notas</span>}</p>
+                          )}
+                      </div>
 
                 <div className="border-t pt-4 grid grid-cols-2 gap-4 text-sm">
                     <div>
