@@ -14,13 +14,29 @@ import { useCampaigns } from '../../hooks/useCampaigns';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { useProductCategories } from '../../hooks/useProductCategories';
-
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
+import { urlToPngDataUrl } from '../../utils/imageUtils';
+import { FileSpreadsheet } from 'lucide-react';
 // --- Product Dialog Component (Shared for Create/Edit) ---
 type ProductDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     productToEdit?: StockItem | null; // Pass full stock item to extract product details
 };
+
+const REQUISITION_ROW_HEIGHT = 78;
+const REQUISITION_IMAGE_MAX_WIDTH = 112;
+const REQUISITION_IMAGE_MAX_HEIGHT = 88;
+
+function getContainedImageSize(width: number, height: number) {
+  const scale = Math.min(REQUISITION_IMAGE_MAX_WIDTH / width, REQUISITION_IMAGE_MAX_HEIGHT / height);
+
+  return {
+    width: Math.max(1, Math.round(width * scale)),
+    height: Math.max(1, Math.round(height * scale)),
+  };
+}
 
 function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps) {
   const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
@@ -309,8 +325,8 @@ function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps
   );
 }
 
-// --- Modified StockRow with Edit Button ---
-function StockRow({ item, onSave, onEdit }: { item: StockItem, onSave: (id: string, qty: number) => Promise<void>, onEdit: (item: StockItem) => void }) {
+// --- Modified StockRow with Edit Button and Selection ---
+function StockRow({ item, onSave, onEdit, selectionMode, isSelected, onToggleSelect }: { item: StockItem, onSave: (id: string, qty: number) => Promise<void>, onEdit: (item: StockItem) => void, selectionMode?: boolean, isSelected?: boolean, onToggleSelect?: (id: string, selected: boolean) => void }) {
   const [qty, setQty] = useState(item.quantity);
   const [saving, setSaving] = useState(false);
   
@@ -333,7 +349,18 @@ function StockRow({ item, onSave, onEdit }: { item: StockItem, onSave: (id: stri
       <div className={`flex items-center justify-between p-4 border-b last:border-0 hover:bg-gray-50 transition-colors 
         ${isOutOfStock ? 'bg-red-50 border-l-4 border-l-red-500' : ''}
         ${isLowStock ? 'bg-yellow-50 border-l-4 border-l-yellow-400' : ''}
+        ${isSelected ? 'bg-blue-50/50' : ''}
     `}>
+          {selectionMode && onToggleSelect && (
+            <div className="pl-2 pr-4">
+              <input
+                type="checkbox"
+                className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
+                checked={isSelected || false}
+                onChange={(e) => onToggleSelect(item.product_id.toString(), e.target.checked)}
+              />
+            </div>
+          )}
           <div className="flex-1 pl-2">
           <div className="flex items-center gap-2">
                   <h4 className={`font-medium ${isOutOfStock ? 'text-red-900' : 'text-gray-900'}`}>
@@ -371,6 +398,17 @@ export function StockManager() {
   const { data: role } = useUserRole();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [productToEdit, setProductToEdit] = useState<StockItem | null>(null);
+
+  // Requisition mode state
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedForRequisition, setSelectedForRequisition] = useState<string[]>([]);
+  const [isExportingExcel, setIsExportingExcel] = useState(false);
+
+  const toggleSelection = (productId: string, selected: boolean) => {
+    setSelectedForRequisition(prev => 
+      selected ? [...prev, productId] : prev.filter(id => id !== productId)
+    );
+  };
 
   const handleEdit = (item: StockItem) => {
       setProductToEdit(item);
@@ -415,6 +453,157 @@ export function StockManager() {
     doc.save('productos-kadmiel.pdf');
   };
 
+  const handleExportExcel = async () => {
+    if (!stock || selectedForRequisition.length === 0) return;
+    setIsExportingExcel(true);
+    
+    try {
+      const selectedItems = stock.filter(item => selectedForRequisition.includes(item.product_id.toString()));
+      selectedItems.sort((a, b) => a.productos.nombre.localeCompare(b.productos.nombre));
+
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('Requisición', {
+          properties: { defaultRowHeight: REQUISITION_ROW_HEIGHT },
+          pageSetup: {
+            paperSize: 1 as ExcelJS.PaperSize,
+            orientation: 'portrait',
+            fitToPage: true,
+            fitToWidth: 1,
+            fitToHeight: 0,
+            horizontalCentered: true,
+            printTitlesRow: '7:7',
+            margins: {
+              left: 0.25,
+              right: 0.25,
+              top: 0.35,
+              bottom: 0.35,
+              header: 0.15,
+              footer: 0.15,
+            },
+          },
+      });
+
+      // Column widths
+      worksheet.getColumn(1).width = 8;  // #
+      worksheet.getColumn(2).width = 40; // Producto
+      worksheet.getColumn(3).width = 15; // Cantidad
+      worksheet.getColumn(4).width = 25; // Imagen
+
+      // Add Header texts
+      worksheet.mergeCells('A1:D1');
+      const titleCell = worksheet.getCell('A1');
+      titleCell.value = 'KADMIEL - REQUISICIÓN NAVIDAD';
+      titleCell.font = { size: 16, bold: true };
+      titleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+      
+      worksheet.getCell('A2').value = 'Folios:';
+      worksheet.getCell('A2').font = { bold: true };
+      worksheet.getCell('B2').value = '____________________';
+      
+      worksheet.getCell('A3').value = 'Fecha:';
+      worksheet.getCell('A3').font = { bold: true };
+      worksheet.getCell('B3').value = '____________________';
+      
+      worksheet.getCell('A4').value = 'Nombre:';
+      worksheet.getCell('A4').font = { bold: true };
+      worksheet.getCell('B4').value = '____________________';
+      
+      worksheet.getCell('A5').value = 'Sucursal:';
+      worksheet.getCell('A5').font = { bold: true };
+      worksheet.getCell('B5').value = role?.sucursal || '____________________';
+
+      // Table headers row 7
+      const headerRow = worksheet.getRow(7);
+      headerRow.values = ['#', 'Producto', 'Cantidad', 'Imagen'];
+      headerRow.font = { bold: true };
+      headerRow.alignment = { horizontal: 'center', vertical: 'middle' };
+      headerRow.height = 30;
+
+      // Table styling - headers
+      ['A', 'B', 'C', 'D'].forEach(col => {
+        const cell = worksheet.getCell(`${col}7`);
+        cell.border = {
+          top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'}
+        };
+      });
+
+      // Iterate selected items starting from row 8
+      let currentRowIndex = 8;
+
+      for (let i = 0; i < selectedItems.length; i++) {
+          const item = selectedItems[i];
+          const row = worksheet.getRow(currentRowIndex);
+          row.height = REQUISITION_ROW_HEIGHT;
+          
+          row.getCell(1).value = i + 1;
+          row.getCell(1).alignment = { horizontal: 'center', vertical: 'middle' };
+          
+          row.getCell(2).value = item.productos.nombre;
+          row.getCell(2).alignment = { vertical: 'middle', wrapText: true };
+          
+          row.getCell(3).value = '';
+          row.getCell(3).alignment = { horizontal: 'center', vertical: 'middle' };
+          row.getCell(4).alignment = { horizontal: 'center', vertical: 'middle' };
+          
+          // Add border to cells
+          ['A', 'B', 'C', 'D'].forEach(col => {
+            worksheet.getCell(`${col}${currentRowIndex}`).border = {
+              top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'}
+            };
+          });
+
+          // Fetch and embed image if available
+          const imgUrl = item.productos?.imagen_url;
+          if (imgUrl && !imgUrl.includes('placehold')) {
+              try {
+                 const pngImage = await urlToPngDataUrl(imgUrl);
+                 const imageSize = getContainedImageSize(pngImage.width, pngImage.height);
+                 const imageId = workbook.addImage({
+                     base64: pngImage.dataUrl,
+                     extension: 'png',
+                 });
+                 // ExcelJS image positions are 0-based. currentRowIndex is 1-based.
+                 // Row 8 in sheet = index 7 in image coords.
+                 const zeroRow = currentRowIndex - 1;
+                 worksheet.addImage(imageId, {
+                     tl: { col: 3.15, row: zeroRow + 0.08 },
+                     ext: imageSize,
+                     editAs: 'oneCell'
+                 });
+              } catch(err) {
+                 console.error('Failed to load image for', item.productos.nombre, err);
+              }
+          }
+          currentRowIndex++;
+      }
+
+      // Bottom fields
+      currentRowIndex++;
+      worksheet.getCell(`A${currentRowIndex}`).value = '¿Quien recibe?______________________';
+      worksheet.getCell(`A${currentRowIndex}`).font = { bold: true };
+      worksheet.mergeCells(`A${currentRowIndex}:D${currentRowIndex}`);
+      
+      currentRowIndex++;
+      worksheet.getCell(`A${currentRowIndex}`).value = 'Observaciones:';
+      worksheet.getCell(`A${currentRowIndex}`).font = { bold: true };
+      worksheet.mergeCells(`A${currentRowIndex}:D${currentRowIndex}`);
+
+      worksheet.pageSetup.printArea = `A1:D${currentRowIndex}`;
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs(blob, `Requisicion_${role?.sucursal || 'General'}.xlsx`);
+
+      setSelectionMode(false);
+      setSelectedForRequisition([]);
+    } catch (error) {
+      console.error("Error generating excel:", error);
+      alert("Error al generar el archivo Excel");
+    } finally {
+      setIsExportingExcel(false);
+    }
+  };
+
   if (role?.role !== 'branch_admin' && role?.role !== 'super_admin') {
      return <div className="p-8 text-center text-red-500">Acceso Denegado. Se requiere ser Administrador de Sucursal.</div>;
   }
@@ -426,7 +615,37 @@ export function StockManager() {
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">Inventario / Stock</h1>
             <p className="text-sm text-gray-500">Administrando sucursal: <span className="font-semibold text-gray-900">{role?.sucursal}</span></p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 justify-end">
+            {selectionMode ? (
+              <>
+                <Button 
+                   variant="default" 
+                   className="bg-green-600 hover:bg-green-700 text-white"
+                   onClick={handleExportExcel} 
+                   disabled={selectedForRequisition.length === 0 || isExportingExcel}
+                >
+                  {isExportingExcel ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileSpreadsheet className="mr-2 h-4 w-4" />}
+                  Exportar Requisición ({selectedForRequisition.length})
+                </Button>
+                <Button variant="outline" onClick={() => {
+                  setSelectionMode(false);
+                  setSelectedForRequisition([]);
+                }}>
+                  Cancelar Selección
+                </Button>
+              </>
+            ) : (
+              <Button 
+                variant="outline" 
+                className="text-green-700 border-green-600 hover:bg-green-50"
+                onClick={() => setSelectionMode(true)} 
+                disabled={isLoading || !stock || stock.length === 0}
+              >
+                <FileSpreadsheet className="mr-2 h-4 w-4" />
+                Modo Requisición
+              </Button>
+            )}
+            
             <Button variant="outline" onClick={handleDownloadPDF} disabled={isLoading || !stock || stock.length === 0}>
                 <Download className="mr-2 h-4 w-4" />
                 Descargar Lista
@@ -465,6 +684,9 @@ export function StockManager() {
                        item={item} 
                        onEdit={handleEdit}
                        onSave={async (id, qty) => updateStock.mutateAsync({ id, product_id: item.product_id, quantity: qty })} 
+                       selectionMode={selectionMode}
+                       isSelected={selectedForRequisition.includes(item.product_id.toString())}
+                       onToggleSelect={toggleSelection}
                      />
                    ))}
                 </div>
