@@ -4,7 +4,7 @@ import { useUserRole } from '../../hooks/useUserRole';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { Loader2, Save, Pencil, PlusCircle, Download } from 'lucide-react';
+import { Loader2, Save, Pencil, PlusCircle, Download, Upload, Eye, EyeOff } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useCreateProduct } from '../../hooks/useCreateProduct';
 import { useUpdateProduct } from '../../hooks/useUpdateProduct';
@@ -18,6 +18,7 @@ import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { urlToPngDataUrl } from '../../utils/imageUtils';
 import { FileSpreadsheet } from 'lucide-react';
+import { ImportProductsDialog } from './ImportProductsDialog';
 // --- Product Dialog Component (Shared for Create/Edit) ---
 type ProductDialogProps = {
     open: boolean;
@@ -326,7 +327,7 @@ function ProductDialog({ open, onOpenChange, productToEdit }: ProductDialogProps
 }
 
 // --- Modified StockRow with Edit Button and Selection ---
-function StockRow({ item, onSave, onEdit, selectionMode, isSelected, onToggleSelect }: { item: StockItem, onSave: (id: string, qty: number) => Promise<void>, onEdit: (item: StockItem) => void, selectionMode?: boolean, isSelected?: boolean, onToggleSelect?: (id: string, selected: boolean) => void }) {
+function StockRow({ item, onSave, onEdit, selectionMode, isSelected, onToggleSelect, onToggleActive, updatingActive }: { item: StockItem, onSave: (id: string, qty: number) => Promise<void>, onEdit: (item: StockItem) => void, selectionMode?: boolean, isSelected?: boolean, onToggleSelect?: (id: string, selected: boolean) => void, onToggleActive?: (item: StockItem) => void, updatingActive?: boolean }) {
   const [qty, setQty] = useState(item.quantity);
   const [saving, setSaving] = useState(false);
   
@@ -344,12 +345,14 @@ function StockRow({ item, onSave, onEdit, selectionMode, isSelected, onToggleSel
 
     const isOutOfStock = item.quantity === 0;
     const isLowStock = item.quantity <= 3 && item.quantity > 0;
+    const isActive = item.productos?.is_active ?? true;
 
   return (
       <div className={`flex items-center justify-between p-4 border-b last:border-0 hover:bg-gray-50 transition-colors 
         ${isOutOfStock ? 'bg-red-50 border-l-4 border-l-red-500' : ''}
         ${isLowStock ? 'bg-yellow-50 border-l-4 border-l-yellow-400' : ''}
         ${isSelected ? 'bg-blue-50/50' : ''}
+        ${!isActive ? 'opacity-60 bg-gray-100 grayscale-[0.5]' : ''}
     `}>
           {selectionMode && onToggleSelect && (
             <div className="pl-2 pr-4">
@@ -366,12 +369,24 @@ function StockRow({ item, onSave, onEdit, selectionMode, isSelected, onToggleSel
                   <h4 className={`font-medium ${isOutOfStock ? 'text-red-900' : 'text-gray-900'}`}>
                       {item.productos?.nombre || `Producto #${item.product_id}`}
                   </h4>
-                  {isOutOfStock && <span className="text-xs font-bold text-red-600 border border-red-200 bg-red-100 px-2 py-0.5 rounded-full">AGOTADO</span>}
-                  {isLowStock && <span className="text-xs font-bold text-yellow-700 border border-yellow-200 bg-yellow-100 px-2 py-0.5 rounded-full">BAJO STOCK</span>}
+                  {isOutOfStock && isActive && <span className="text-xs font-bold text-red-600 border border-red-200 bg-red-100 px-2 py-0.5 rounded-full">AGOTADO</span>}
+                  {isLowStock && isActive && <span className="text-xs font-bold text-yellow-700 border border-yellow-200 bg-yellow-100 px-2 py-0.5 rounded-full">BAJO STOCK</span>}
+                  {!isActive && <span className="text-xs font-bold text-gray-600 border border-gray-300 bg-gray-200 px-2 py-0.5 rounded-full">INACTIVO</span>}
 
               <button onClick={() => onEdit(item)} className="text-gray-400 hover:text-blue-600 transition-colors" title="Editar Producto">
                   <Pencil className="h-3 w-3" />
               </button>
+              
+              {onToggleActive && (
+                  <button 
+                      onClick={() => onToggleActive(item)} 
+                      disabled={updatingActive}
+                      className={`text-gray-400 hover:text-gray-700 transition-colors ${updatingActive ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                      title={isActive ? "Desactivar Producto" : "Activar Producto"}
+                  >
+                      {updatingActive ? <Loader2 className="h-4 w-4 animate-spin" /> : isActive ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4 text-red-500" />}
+                  </button>
+              )}
           </div>
           <p className="text-sm text-gray-500">{item.productos?.empaque || 'Sin unidad'}</p>
        </div>
@@ -395,19 +410,38 @@ function StockRow({ item, onSave, onEdit, selectionMode, isSelected, onToggleSel
 
 export function StockManager() {
   const { data: stock, isLoading, updateStock } = useStock();
+  const updateProductMutation = useUpdateProduct();
   const { data: role } = useUserRole();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [productToEdit, setProductToEdit] = useState<StockItem | null>(null);
+  const [updatingProductId, setUpdatingProductId] = useState<number | null>(null);
 
   // Requisition mode state
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedForRequisition, setSelectedForRequisition] = useState<string[]>([]);
   const [isExportingExcel, setIsExportingExcel] = useState(false);
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
 
   const toggleSelection = (productId: string, selected: boolean) => {
     setSelectedForRequisition(prev => 
       selected ? [...prev, productId] : prev.filter(id => id !== productId)
     );
+  };
+
+  const handleToggleActive = async (item: StockItem) => {
+      const isActive = item.productos?.is_active ?? true;
+      setUpdatingProductId(item.product_id);
+      try {
+          await updateProductMutation.mutateAsync({
+              id: item.product_id,
+              is_active: !isActive
+          });
+      } catch (error) {
+          console.error("Error toggling product active state:", error);
+          alert("Error al cambiar el estado del producto.");
+      } finally {
+          setUpdatingProductId(null);
+      }
   };
 
   const handleEdit = (item: StockItem) => {
@@ -650,6 +684,15 @@ export function StockManager() {
                 <Download className="mr-2 h-4 w-4" />
                 Descargar Lista
             </Button>
+            <Button
+              variant="outline"
+              className="text-blue-700 border-blue-600 hover:bg-blue-50"
+              onClick={() => setIsImportDialogOpen(true)}
+              disabled={isLoading}
+            >
+                <Upload className="mr-2 h-4 w-4" />
+                Importar
+            </Button>
             <Button onClick={handleCreate}>
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Nuevo Producto
@@ -661,6 +704,11 @@ export function StockManager() {
           open={isDialogOpen} 
           onOpenChange={setIsDialogOpen} 
           productToEdit={productToEdit} 
+       />
+
+       <ImportProductsDialog
+           open={isImportDialogOpen}
+           onOpenChange={setIsImportDialogOpen}
        />
 
        <Card>
@@ -687,6 +735,8 @@ export function StockManager() {
                        selectionMode={selectionMode}
                        isSelected={selectedForRequisition.includes(item.product_id.toString())}
                        onToggleSelect={toggleSelection}
+                       onToggleActive={handleToggleActive}
+                       updatingActive={updatingProductId === item.product_id}
                      />
                    ))}
                 </div>

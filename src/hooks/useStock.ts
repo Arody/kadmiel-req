@@ -22,11 +22,11 @@ export function useStock() {
     queryFn: async () => {
       if (!role?.sucursal) return [];
 
-      // 1. Get All Active Products
+      // 1. Get All Products
       const { data: products, error: prodError } = await supabase
         .from('productos')
         .select('*')
-        .eq('is_active', true);
+        .order('nombre', { ascending: true });
 
       if (prodError) throw prodError;
 
