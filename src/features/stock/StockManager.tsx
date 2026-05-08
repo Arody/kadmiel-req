@@ -4,7 +4,7 @@ import { useUserRole } from '../../hooks/useUserRole';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { Loader2, Save, Pencil, PlusCircle, Download, Upload, Eye, EyeOff } from 'lucide-react';
+import { Loader2, Save, Pencil, PlusCircle, Download, Upload, Eye, EyeOff, Search } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useCreateProduct } from '../../hooks/useCreateProduct';
 import { useUpdateProduct } from '../../hooks/useUpdateProduct';
@@ -421,6 +421,7 @@ export function StockManager() {
   const [selectedForRequisition, setSelectedForRequisition] = useState<string[]>([]);
   const [isExportingExcel, setIsExportingExcel] = useState(false);
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleSelection = (productId: string, selected: boolean) => {
     setSelectedForRequisition(prev => 
@@ -642,6 +643,12 @@ export function StockManager() {
      return <div className="p-8 text-center text-red-500">Acceso Denegado. Se requiere ser Administrador de Sucursal.</div>;
   }
 
+  const filteredStock = stock?.filter(item => 
+      item.productos?.nombre?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.productos?.categoria?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.productos?.catalogo?.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   return (
     <div className="space-y-6">
        <div className="flex items-center justify-between">
@@ -712,8 +719,18 @@ export function StockManager() {
        />
 
        <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
              <CardTitle>Productos en Stock</CardTitle>
+             <div className="relative w-full sm:max-w-xs">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                   type="text"
+                   placeholder="Buscar productos..."
+                   className="pl-8"
+                   value={searchQuery}
+                   onChange={(e) => setSearchQuery(e.target.value)}
+                />
+             </div>
           </CardHeader>
           <CardContent className="p-0">
              {isLoading ? (
@@ -724,9 +741,13 @@ export function StockManager() {
                <div className="py-10 text-center text-gray-500">
                  No hay productos registrados.
                </div>
+             ) : filteredStock.length === 0 ? (
+               <div className="py-10 text-center text-gray-500">
+                 No se encontraron productos que coincidan con la búsqueda.
+               </div>
              ) : (
                 <div className="divide-y divide-gray-100">
-                   {stock?.map(item => (
+                   {filteredStock.map(item => (
                      <StockRow 
                        key={item.id} 
                        item={item} 
