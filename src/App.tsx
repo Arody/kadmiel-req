@@ -10,6 +10,7 @@ import { NewOrder } from './features/orders/NewOrder';
 import { OrderList } from './features/orders/OrderList';
 import { OrderDetail } from './features/orders/OrderDetail';
 import { StockManager } from './features/stock/StockManager';
+import { Cotizador } from './features/cotizador/Cotizador';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
              <Route path="/orders" element={<OrderList />} />
              <Route path="/orders/:id" element={<OrderDetail />} />
              <Route path="/stock" element={<StockManager />} />
+             <Route path="/cotizador" element={<Cotizador />} />
            </Route>
         </Route>
 

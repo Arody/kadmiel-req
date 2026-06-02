@@ -1,0 +1,406 @@
+{
+  "titulo": "Mesas de Postres 2026",
+  "moneda": "MXN",
+  "procesoCompra": [
+    "Consultar disponibilidad de fecha para su evento.",
+    "Realizar la orden de pedido con mínimo 30 días antes del evento, según disponibilidad de la empresa.",
+    "Para fletes fuera de la ciudad, consultar precios.",
+    "Se requiere el depósito del 50% para poder agendar la fecha, el restante se debe liquidar 15 días antes del evento.",
+    "En caso de requerir factura, solicitar al momento de ordenar y realizar su primer pago.",
+    "Una vez pagado el anticipo, se firmará contrato de prestación de servicios. Se requiere que sea de forma presencial o digital.",
+    "En caso de cancelación No aplica reembolso, aún si no ha sido entregado de firmado el contrato.",
+    "El evento debe ser liquidado en el tiempo establecido. No se realizará el evento de no haber liquidado en tiempo y forma.",
+    "Se requiere depósito en garantía por el mobiliario y bases, este se estipula y detalla en el contrato. Debe ser cubierto en efectivo. De no existir alteraciones o daños en el mobiliario y artículos decorativos el depósito será devuelto al día siguiente (día hábil laboral).",
+    "Si requiere menú de degustación, se programará fecha a convenir por parte del cliente y la empresa. El costo es de $600 para 4 personas máximo. Incluye 5 productos a degustar y bebidas.",
+    "Sí al contratar su evento este excede de 10 meses de anticipación, los precios tendrán un incremento de acuerdo a la inflación de los insumos y servicios relacionados al producto.",
+    "Listas de precios, sujetas a cambio sin previo aviso."
+  ],
+  "mesas": [
+    {
+      "id": "premium",
+      "nombre": "Mesa de Postres Premium",
+      "descripcionCorta": "2 piezas por persona",
+      "piezasPorPersona": 2,
+      "incluye": [
+        "Mobiliario con cristalería y utilería acorde al número de postres y sujeto a disponibilidad de la empresa",
+        "Mesas vintage, set de 4 pzas (evento mas de 100 personas)",
+        "Mesas vintage, set de 2 pzas (evento de 50 personas)",
+        "Carreta de madera mas mesa de apoyo (evento de 50 personas)",
+        "Mesa con barriles y pérgola (Evento para 100 personas o más)",
+        "Tablón grande con mantel tipo bambalina en color negro, blanco, rosa o celeste (Evento de 100 personas)",
+        "Tablón mediano con mantel tipo bambalina en color negro, blanco, rosa o celeste (evento de 50 personas)",
+        "Flete, montaje y desmontaje, dentro de la ciudad. Montaje fuera de la ciudad cotizar flete por separado",
+        "Servicio de personal en mesa el día del evento solo en mesas a partir de 150 personas"
+      ],
+      "tamanios": [
+        { "personas": 50, "piezas": 100, "precio": 7500 },
+        { "personas": 100, "piezas": 200, "precio": 15000 },
+        { "personas": 150, "piezas": 300, "precio": 22500 }
+      ],
+      "categorias": [
+        {
+          "id": "mini_cake_cupcake",
+          "titulo": "Mini Cake & Cupcake Mini",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "pastel_frutos_rojos",
+              "nombre": "Pastel frutos rojos",
+              "descripcion": "Pan de mantequilla, relleno de compota de frutos rojos y cubierto de crema de queso."
+            },
+            {
+              "id": "pastel_zanahoria",
+              "nombre": "Pastel de zanahoria",
+              "descripcion": "Elaborado con pasitas y nuez, cubierto con crema de queso."
+            },
+            {
+              "id": "pastel_red_velvet",
+              "nombre": "Pastel de red velvet",
+              "descripcion": "Cubierto con crema de queso."
+            },
+            {
+              "id": "pastel_tres_leches",
+              "nombre": "Pastel de tres leches",
+              "descripcion": "Servido en vasito, con crema chantilly y fruta."
+            },
+            {
+              "id": "cupcake_choco_chispas",
+              "nombre": "Cupcake choco-chispas",
+              "descripcion": "Pan de vainilla con chispas, cubierta de crema de queso y trozo de galleta chocochips."
+            },
+            {
+              "id": "cupcake_red_velvet",
+              "nombre": "Mini cupcake de red velvet",
+              "descripcion": "Pan red velvet, cubierta de crema de queso y cereza."
+            },
+            {
+              "id": "cupcake_chocolate",
+              "nombre": "Mini cupcake de chocolate",
+              "descripcion": "Pan de chocolate, cubierto con crema de chocolate y glaseado de chocolate oscuro."
+            }
+          ]
+        },
+        {
+          "id": "mini_postre_gourmet",
+          "titulo": "Mini Postre Gourmet",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "mini_tarta_limon",
+              "nombre": "Mini tarta de limón",
+              "descripcion": "Rellena de crema de limón y merengue italiano flameado."
+            },
+            {
+              "id": "mini_tarta_frutos",
+              "nombre": "Mini tarta de frutos",
+              "descripcion": "Rellena de crema pastelera de vainilla con frutos."
+            },
+            {
+              "id": "mini_tarta_chocolate",
+              "nombre": "Mini tarta de chocolate",
+              "descripcion": "Rellena de ganache de chocolate y fruta."
+            },
+            {
+              "id": "brownie_chocolate",
+              "nombre": "Brownie",
+              "descripcion": "Elaborado con chocolate semi amargo y nuez. Decorado con azúcar glass."
+            },
+            {
+              "id": "pie_queso_limon",
+              "nombre": "Pie de queso o pie de limón",
+              "descripcion": ""
+            },
+            {
+              "id": "cake_pop",
+              "nombre": "Cake pop",
+              "descripcion": "Paleta de pastel de vainilla cubierta con chocolate blanco u oscuro."
+            },
+            {
+              "id": "brownie_clasico",
+              "nombre": "Brownie clásico",
+              "descripcion": "Elaborado con mantequilla y nuez. Cubierto con azúcar glass."
+            },
+            {
+              "id": "dona_gourmet",
+              "nombre": "Dona gourmet de chocolate oscuro / blanco",
+              "descripcion": "Cubierta de crema de chocolate oscuro / blanco y decorada con fruta. Opcional se puede agregar color al glaseado."
+            },
+            {
+              "id": "verrina_panna_cotta",
+              "nombre": "Verrina de panna cotta",
+              "descripcion": "Gelatina italiana a base de crema con compota de frutos rojos."
+            }
+          ]
+        },
+        {
+          "id": "complemento",
+          "titulo": "Complemento",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "merengues",
+              "nombre": "Merengues",
+              "descripcion": "Naturales o del color de su elección."
+            },
+            {
+              "id": "mix_galletas",
+              "nombre": "Mix de galletas gourmet",
+              "descripcion": "20 gr de mix de galletas por persona. Sabores: chocochips o pastisetas."
+            },
+            {
+              "id": "alfajores_dulce_leche",
+              "nombre": "Alfajores de dulce de leche",
+              "descripcion": "Cubiertos con nuez."
+            },
+            {
+              "id": "alfajores_nutella",
+              "nombre": "Alfajores de nutella",
+              "descripcion": "Cubiertos con coco."
+            },
+            {
+              "id": "botana_kadmiel",
+              "nombre": "Botana de semillas Kadmiel",
+              "descripcion": "Cacahuate enchilado, cacahuate natural, arándanos, pepita de calabaza frita, entre otros. 20 gr de producto por persona."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deluxe",
+      "nombre": "Mesa de Postres Deluxe",
+      "descripcionCorta": "4 piezas por persona",
+      "piezasPorPersona": 4,
+      "incluye": [
+        "Mobiliario con cristalería y utilería",
+        "Mesas vintage, set de 4 pzas (evento de 50 a 100 personas)",
+        "Mesas vintage, set de 2 pzas (evento de más de 100 personas)",
+        "Carreta de madera (evento de 50 personas)",
+        "Mesa con barriles y pérgola (Evento para 100 personas o más)",
+        "Tablón grande con mantel tipo bambalina en color negro, blanco, rosa o celeste (Evento de 100 personas)",
+        "Tablón mediano con mantel tipo bambalina en color negro, blanco, rosa o celeste (evento de 50 personas)",
+        "Personal de servicio en mesas mayores a 150 personas"
+      ],
+      "tamanios": [
+        { "personas": 50, "piezas": 200, "precio": 9500 },
+        { "personas": 100, "piezas": 400, "precio": 19000 },
+        { "personas": 150, "piezas": 600, "precio": 28500 }
+      ],
+      "categorias": [
+        {
+          "id": "mini_cake_deluxe",
+          "titulo": "Mini Cake Deluxe",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "pastel_frutos_rojos_dlx",
+              "nombre": "Pastel frutos rojos",
+              "descripcion": "Pan de mantequilla, relleno de compota de frutos rojos y cubierto con crema de queso. Decorado con frutos rojos."
+            },
+            {
+              "id": "pastel_zanahoria_dlx",
+              "nombre": "Pastel de zanahoria",
+              "descripcion": "Elaborado con pasitas y nuez, cubierto con crema de queso. Decorado con nuez y figura de fondant."
+            },
+            {
+              "id": "pastel_mil_hojas",
+              "nombre": "Pastel mil hojas",
+              "descripcion": "Capas de hojaldre caramelizado, relleno de crema diplomática de vainilla y fruta. Decorado con azúcar glass y fruta."
+            },
+            {
+              "id": "pastel_trufa_chocolate",
+              "nombre": "Pastel trufa de chocolate",
+              "descripcion": "Pan de chocolate, relleno ganache de chocolate, cobertura chocolate. Decorado con perlas doradas y flor de fondant."
+            },
+            {
+              "id": "pastel_chessecake",
+              "nombre": "Pastel Chessecake",
+              "descripcion": "Elaborado con queso philadelphia y base de galleta oreo."
+            },
+            {
+              "id": "dona_chocolate_dlx",
+              "nombre": "Dona de chocolate oscuro / blanco",
+              "descripcion": "Cubierta de crema de chocolate oscuro / blanco y decorada con fruta."
+            },
+            {
+              "id": "pastel_moka",
+              "nombre": "Pastel moka",
+              "descripcion": "Pan de chocolate, relleno de crema de café, cubierto con crema de café y ganache de chocolate. Decorado con café y chocolate."
+            },
+            {
+              "id": "pastel_ferrero",
+              "nombre": "Pastel Ferrero",
+              "descripcion": "Pan de chocolate, relleno ganache de chocolate con avellanas tostadas, cobertura de chocolate y decorado con la mitad de un Ferrero Rocher."
+            }
+          ]
+        },
+        {
+          "id": "mini_postre_deluxe",
+          "titulo": "Mini Postre Deluxe",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "tarta_frutos_frangipane",
+              "nombre": "Mini tarta de frutos y frangipane",
+              "descripcion": "Rellena de crema de almendras y crema pastelera de vainilla con frutos."
+            },
+            {
+              "id": "tarta_maracuya",
+              "nombre": "Mini tarta de maracuyá",
+              "descripcion": "Rellena de crema de maracuyá y decorada con merengue italiano."
+            },
+            {
+              "id": "pavlova",
+              "nombre": "Pavlova",
+              "descripcion": "Postre a base de merengue o turrón, relleno con crema diplomática de vainilla o maracuyá y cubierto con fruta."
+            },
+            {
+              "id": "brownie_tortuga",
+              "nombre": "Brownie Tortuga",
+              "descripcion": "Elaborado con mantequilla y nuez. Cubierto con caramelo, nuez y chispas de chocolate."
+            },
+            {
+              "id": "macarron_frances",
+              "nombre": "Macarrón francés",
+              "descripcion": "Color de acuerdo a petición del cliente. Rellenos: chocolate blanco, chocolate oscuro, maracuyá, limón, frutos rojos."
+            },
+            {
+              "id": "fresas_chocolate",
+              "nombre": "Fresas cubiertas de chocolate",
+              "descripcion": "Con chocolate blanco o chocolate oscuro."
+            }
+          ]
+        },
+        {
+          "id": "verrina_deluxe",
+          "titulo": "Verrina Deluxe",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "verrina_3_chocolates",
+              "nombre": "Verrina de 3 chocolates",
+              "descripcion": "Elaborado con chocolate blanco, de leche y oscuro con un bizcocho de vainilla. Decorado con cereza cubierta de chocolate blanco."
+            },
+            {
+              "id": "verrina_ferrero",
+              "nombre": "Verrina de Ferrero",
+              "descripcion": "Mousse de chocolate y avellana, decorado con mitad de chocolate Ferrero rocher."
+            },
+            {
+              "id": "verrina_coco",
+              "nombre": "Verrina de coco",
+              "descripcion": "Bizcocho de vainilla, mousse de coco, glaseado de chocolate blanco. Decorado con fruta."
+            },
+            {
+              "id": "verrina_tres_leches",
+              "nombre": "Verrina de tres leches clásico",
+              "descripcion": "Pastelito en vaso con tres leches clásico y crema chantilly con queso. Decorado con fruta."
+            },
+            {
+              "id": "verrina_fresas_crema",
+              "nombre": "Verrina de fresas con crema",
+              "descripcion": "Bizcocho de vainilla, cremoso de queso con fresas picadas, decorado con crema y fresa."
+            },
+            {
+              "id": "verrina_maracuya",
+              "nombre": "Verrina de maracuyá",
+              "descripcion": "Bizcocho de vainilla, cremoso de maracuyá y gelificado de maracuyá."
+            },
+            {
+              "id": "verrina_frutos_rojos",
+              "nombre": "Verrina de frutos rojos",
+              "descripcion": "Bizcocho de vainilla, mousse de frutos rojos y compota de frutos rojos."
+            }
+          ]
+        },
+        {
+          "id": "dulce_regional_snack",
+          "titulo": "Dulce Regional o Snack",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "cocadas_colores",
+              "nombre": "Cocadas naturales de colores",
+              "descripcion": ""
+            },
+            {
+              "id": "merengues_canela",
+              "nombre": "Merengues naturales o con canela molida",
+              "descripcion": ""
+            },
+            {
+              "id": "nanchi_jocote",
+              "nombre": "Nanchi o jocote encurtido",
+              "descripcion": ""
+            },
+            {
+              "id": "papitas_platanitos",
+              "nombre": "Papitas o platanitos fritos con salsa botanera",
+              "descripcion": ""
+            },
+            {
+              "id": "palomitas_naturales",
+              "nombre": "Palomitas naturales",
+              "descripcion": ""
+            }
+          ]
+        },
+        {
+          "id": "complemento_deluxe",
+          "titulo": "Complemento",
+          "instruccion": "Escoger 1 opción",
+          "opciones": [
+            {
+              "id": "panque_marmoleado",
+              "nombre": "Mini Panqué marmoleado",
+              "descripcion": "Elaborado con pan de mantequilla-vainilla, cubierto con roseta de crema de chocolate."
+            },
+            {
+              "id": "panque_almendra",
+              "nombre": "Mini Panqué de almendra",
+              "descripcion": "Elaborado con mantequilla y arándanos. Decorado con glaseado de azúcar y almendras tostadas."
+            },
+            {
+              "id": "galletas_gourmet_dlx",
+              "nombre": "Galletas gourmet",
+              "descripcion": "20 gr de mix de galletas. Elegir 2 variedades: Choco-chispas, pastisetas, besos de nuez, arándanos y/o coco."
+            },
+            {
+              "id": "botana_kadmiel_dlx",
+              "nombre": "Botana de semillas Kadmiel",
+              "descripcion": "Cacahuate enchilado, cacahuate natural, arándanos, pepita de calabaza frita, entre otros."
+            },
+            {
+              "id": "dona_gourmet_dlx",
+              "nombre": "Dona gourmet",
+              "descripcion": "Glaseado natural con el color de acuerdo a la temática del evento."
+            },
+            {
+              "id": "alfajores_dulce_leche_dlx",
+              "nombre": "Alfajores mini de dulce de leche",
+              "descripcion": "Cubiertos con nuez."
+            },
+            {
+              "id": "alfajores_nutella_dlx",
+              "nombre": "Alfajores mini de nutella",
+              "descripcion": "Cubiertos con coco."
+            },
+            {
+              "id": "galleta_personalizada",
+              "nombre": "Galleta personalizada",
+              "descripcion": "Elaborada con mantequilla y decorada con las iniciales del festejado o motivo del evento."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "extras": [
+    { "id": "detalle_floral", "nombre": "Detalle floral" },
+    { "id": "globo_burbuja", "nombre": "Globo burbuja 36\" personalizado" },
+    { "id": "decoracion_globos", "nombre": "Decoración de globos" },
+    { "id": "figuras_coroplast", "nombre": "Figuras en coroplast y vinil" },
+    { "id": "lona_disenhada", "nombre": "Lona diseñada" },
+    { "id": "nombre_festejado", "nombre": "Nombre del festejado en mdf o acrílico" }
+  ]
+}

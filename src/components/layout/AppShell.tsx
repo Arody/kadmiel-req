@@ -5,13 +5,14 @@ import { useProfile } from '../../hooks/useProfile';
 import { useUserRole } from '../../hooks/useUserRole';
 import { useStock } from '../../hooks/useStock';
 import { supabase } from '../../lib/supabaseClient';
-import { 
-  LayoutDashboard, 
-  ShoppingCart, 
-  Package, 
-  LogOut, 
+import {
+  LayoutDashboard,
+  ShoppingCart,
+  Package,
+  LogOut,
   Store,
   Menu,
+  Cake,
   type LucideIcon
 } from 'lucide-react';
 
@@ -45,6 +46,7 @@ export function AppShell() {
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Nueva Orden', href: '/pos', icon: ShoppingCart },
     { name: 'Mis Órdenes', href: '/orders', icon: Package },
+    { name: 'Cotizador', href: '/cotizador', icon: Cake },
   ];
 
   if (userRole?.role === 'branch_admin' || userRole?.role === 'super_admin') {
