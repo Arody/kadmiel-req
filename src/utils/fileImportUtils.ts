@@ -212,12 +212,6 @@ export async function parseExcelFile(file: File): Promise<ImportParseResult> {
         if (excelSheet) {
           const images = excelSheet.getImages();
 
-          // Find the column index for imagen_url (0-based for matching with ExcelJS 0-based col)
-          let imageColIdx0Based: number | null = null;
-          columnMapping.forEach((field, colIdx) => {
-            if (field === 'imagen_url') imageColIdx0Based = colIdx; // already 0-based from SheetJS
-          });
-
           for (const img of images) {
             const range = img.range as any;
             if (!range || !range.tl) continue;
@@ -238,7 +232,7 @@ export async function parseExcelFile(file: File): Promise<ImportParseResult> {
               const workbookImage = excelWorkbook.getImage(Number(imageId));
               if (workbookImage && workbookImage.buffer) {
                 const ext = workbookImage.extension || 'png';
-                const mimeType = ext === 'jpeg' || ext === 'jpg' ? 'image/jpeg' : `image/${ext}`;
+                const mimeType = ext === 'jpeg' ? 'image/jpeg' : `image/${ext}`;
                 const blob = new Blob([workbookImage.buffer as ArrayBuffer], { type: mimeType });
                 const imageFile = new File([blob], `import_${matchingProduct._rowIndex}.${ext}`, { type: mimeType });
                 matchingProduct._imageFile = imageFile;

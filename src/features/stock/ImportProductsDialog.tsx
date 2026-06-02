@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
 import { Button } from '../../components/ui/button';
 import { Loader2, Upload, FileSpreadsheet, FileText, AlertCircle, CheckCircle2, X, Download, Trash2, ImagePlus } from 'lucide-react';
-import { parseImportFile, generateImportTemplate, type ParsedProductRow, type ImportParseResult } from '../../utils/fileImportUtils';
+import { parseImportFile, generateImportTemplate, type ImportParseResult } from '../../utils/fileImportUtils';
 import { useBulkImportProducts, type BulkImportProgress, type BulkImportResult } from '../../hooks/useBulkImportProducts';
 
 type ImportStep = 'upload' | 'preview' | 'importing' | 'done';
