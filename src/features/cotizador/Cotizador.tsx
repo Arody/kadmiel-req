@@ -1114,13 +1114,19 @@ export function Cotizador() {
                             <p className="text-[10px] font-semibold tracking-wider text-gray-500 uppercase">
                               {t.grupo || 'Tamaño'}
                             </p>
-                            <p className="text-xs font-bold text-gray-800 mt-0.5 leading-tight">
-                              {t.tamanio}
-                            </p>
-                            {t.rendimiento && (
-                              <p className="text-[11px] text-gray-500 mt-1 flex items-center gap-1 font-medium">
-                                <Users className="h-3 w-3 flex-shrink-0" />
-                                {t.rendimiento}
+                            {t.rendimiento ? (
+                              <>
+                                <p className="text-sm font-extrabold text-pink-600 mt-1 flex items-center gap-1 leading-tight">
+                                  <Users className="h-3.5 w-3.5 text-pink-500 flex-shrink-0" />
+                                  {t.rendimiento}
+                                </p>
+                                <p className="text-xs text-gray-500 mt-1 font-medium leading-tight">
+                                  {t.tamanio}
+                                </p>
+                              </>
+                            ) : (
+                              <p className="text-xs font-bold text-gray-800 mt-1 leading-tight">
+                                {t.tamanio}
                               </p>
                             )}
                           </div>
