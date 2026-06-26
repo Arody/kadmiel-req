@@ -491,18 +491,13 @@
       "hasSharedSizes": false,
       "products": [
         {
-          "id": "arco_ris",
+          "id": "arcoiris",
           "nombre": "Arcoíris",
-          "descripcion": "Pastel clásico americano de 7 colores del arcoíris. Relleno cremoso de queso y cobertura buttercream americano. Decorado con sprinkles de colores.",
+          "descripcion": "Pastel clásico americano de 7 capas de pan de los colores del arcoíris. Relleno cremoso de queso y cobertura buttercream americano. Decorado con sprinkles de colores.",
           "categoria": "Especiales exclusivos 2024",
           "imagen": "IMG_5528",
           "observaciones": [],
           "tamanios": [
-            {
-              "tamanio": "CHICO 6\" - 15 cm",
-              "rendimiento": "Rinde: 10 - 12 px",
-              "precio": 700
-            },
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
               "rendimiento": "Rinde: 20 - 24 px",
@@ -551,14 +546,12 @@
           ]
         },
         {
-          "id": "mostach_n_de_fresas",
+          "id": "mostachon_de_fresas",
           "nombre": "Mostachón de fresas",
           "descripcion": "Pastel elaborado con nuez, cremoso de queso Philadelphia y decorado con fresas picadas.",
           "categoria": "Especiales exclusivos 2024",
           "imagen": "IMG_5528",
-          "observaciones": [
-            "Precio corregido a mano; precio impreso tachado en la imagen."
-          ],
+          "observaciones": [],
           "tamanios": [
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
@@ -578,14 +571,12 @@
           ]
         },
         {
-          "id": "mostach_n_de_frutos_mixtos",
+          "id": "mostachon_de_frutos_mixtos",
           "nombre": "Mostachón de frutos mixtos",
           "descripcion": "Pastel elaborado con nuez, cremoso de queso Philadelphia y decorado con frutos mixtos; fresas, moras, kiwi y durazno.",
           "categoria": "Especiales exclusivos 2024",
           "imagen": "IMG_5528",
-          "observaciones": [
-            "Precio corregido a mano; precio impreso tachado en la imagen."
-          ],
+          "observaciones": [],
           "tamanios": [
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
@@ -605,7 +596,7 @@
           ]
         },
         {
-          "id": "mostach_n_de_banano_caramelo",
+          "id": "mostachon_de_banano_caramelo",
           "nombre": "Mostachón de banano & caramelo",
           "descripcion": "Pastel elaborado con nuez, cremoso de queso Philadelphia y decorado con banano, caramelo y nuez.",
           "categoria": "Especiales exclusivos 2024",
@@ -670,7 +661,7 @@
           ]
         },
         {
-          "id": "pastel_de_letra_o_n_mero",
+          "id": "pastel_de_letra_o_numero",
           "nombre": "Pastel de letra o número",
           "descripcion": "Elaborado con bizcocho de naranja, relleno de crema mousseline de vainilla y frutos rojos. Decorado con crema mousseline, frutos mixtos, 3 rosas del color de su elección (sujeto a disponibilidad de la temporada), 3 macarrones, merengues o dulces y perlas de azúcar comestible.",
           "categoria": "Especiales exclusivos 2024",
@@ -690,26 +681,6 @@
           ]
         },
         {
-          "id": "pastel_carajillo",
-          "nombre": "Pastel carajillo",
-          "descripcion": "Elaborado con pan de mantequilla de café, humectado con licor 43, relleno con crema mantequilla francesa de café, cubierto con buttercream de café y drip de chocolate. Decorado con macarrones de café, fruta y pipetas de licor 43.",
-          "categoria": "Especiales exclusivos 2024",
-          "imagen": "IMG_5529",
-          "observaciones": [],
-          "tamanios": [
-            {
-              "tamanio": "CHICO 6\" - 15 cm (Alto)",
-              "rendimiento": "Rinde: 10 - 12 px",
-              "precio": 850
-            },
-            {
-              "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
-              "rendimiento": "Rinde: 20 - 24 px",
-              "precio": 1400
-            }
-          ]
-        },
-        {
           "id": "pastel_candy_cake",
           "nombre": "Pastel candy cake",
           "descripcion": "Pastel elaborado con pan de mantequilla, relleno de crema de nutella con queso. Cobertura buttercream con drip de chocolate. Decorado con gomitas, dulces, chocolates y caramelos.",
@@ -717,11 +688,6 @@
           "imagen": "IMG_5530",
           "observaciones": [],
           "tamanios": [
-            {
-              "tamanio": "CHICO 6\" - 15 cm (Alto)",
-              "rendimiento": "Rinde: 10 - 12 px",
-              "precio": 590
-            },
             {
               "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
               "rendimiento": "Rinde: 20 - 24 px",
@@ -738,11 +704,6 @@
           "observaciones": [],
           "tamanios": [
             {
-              "tamanio": "CHICO 6\" - 15 cm (Alto)",
-              "rendimiento": "Rinde: 10 - 12 px",
-              "precio": 490
-            },
-            {
               "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
               "rendimiento": "Rinde: 20 - 24 px",
               "precio": 1200
@@ -750,7 +711,7 @@
           ]
         },
         {
-          "id": "tiramis_",
+          "id": "tiramisu",
           "nombre": "Tiramisú",
           "descripcion": "Clásico pastel italiano, elaborado con bizcocho sorrento; de almendra y café, embebido con licor de café y expresso. Relleno de una exquisita mousse de queso mascarpone. Decorado con cocoa extra brute.",
           "categoria": "Especiales exclusivos 2024",
@@ -768,46 +729,6 @@
               "precio": 1450
             }
           ]
-        },
-        {
-          "id": "fraisier_fresa_",
-          "nombre": "Fraisier (fresa)",
-          "descripcion": "Pastel francés, elaborado con un ligero bizcocho de vainilla embebido con un jarabe artesanal de fresa, relleno de una tersa crema diplomática de vainilla con fresas. Decorado con una gelatina y fresas naturales.",
-          "categoria": "Especiales exclusivos 2024",
-          "imagen": "IMG_5530",
-          "observaciones": [],
-          "tamanios": [
-            {
-              "tamanio": "MEDIANO 20 cm diámetro",
-              "rendimiento": "Rinde: 16 px",
-              "precio": 650
-            },
-            {
-              "tamanio": "GRANDE 30 cm diámetro",
-              "rendimiento": "Rinde: 24 px",
-              "precio": 1200
-            }
-          ]
-        },
-        {
-          "id": "mousse_de_mango",
-          "nombre": "Mousse de mango",
-          "descripcion": "Pastel elaborado con base de galleta de vainilla, mousse y gelatina de mango ataulfo. Decorado con cubos de mango, crema ligera de mango y crema de vainilla.",
-          "categoria": "Especiales exclusivos 2024",
-          "imagen": "IMG_5530",
-          "observaciones": [],
-          "tamanios": [
-            {
-              "tamanio": "MEDIANO 20 cm diámetro",
-              "rendimiento": "Rinde: 16 px",
-              "precio": 650
-            },
-            {
-              "tamanio": "GRANDE 30 cm diámetro",
-              "rendimiento": "Rinde: 24 px",
-              "precio": 1200
-            }
-          ]
         }
       ]
     },
@@ -818,7 +739,7 @@
         {
           "id": "flan_parisino",
           "nombre": "Flan parisino",
-          "descripcion": "Clásico flan francés, elaborado con una base de mantequilla y decorado con frutos rojos.",
+          "descripcion": "Clásico flan francés, elaborado sobre una base de masa quebrada. Decorado con frutos rojos.",
           "categoria": "Tartas, flanes & pies",
           "imagen": "IMG_5531",
           "observaciones": [],
@@ -833,7 +754,7 @@
         {
           "id": "flan_napolitano",
           "nombre": "Flan napolitano",
-          "descripcion": "Clásico postre mexicano elaborado con un toque de brandy.",
+          "descripcion": "Clásico postre mexicano elaborado con queso philadelphia y un toque de vainilla y brandy.",
           "categoria": "Tartas, flanes & pies",
           "imagen": "IMG_5531",
           "observaciones": [],
@@ -846,8 +767,8 @@
           ]
         },
         {
-          "id": "tarta_de_la_vi_a_cheesecake_vasco",
-          "nombre": "Tarta de la viña / cheesecake vasco",
+          "id": "tarta_vasca",
+          "nombre": "Tarta Vasca",
           "descripcion": "Postre originado en España. Consiste en un pastel muy cremoso con un toque a vainilla; se elabora con 100% queso crema y se hornea sin costra de galleta. Decorado con frutos del bosque.",
           "categoria": "Tartas, flanes & pies",
           "imagen": "IMG_5531",
@@ -863,7 +784,7 @@
         {
           "id": "pie_de_queso_chiapaneco",
           "nombre": "Pie de queso chiapaneco",
-          "descripcion": "Tradicional pie de queso chiapaneco con una base de mantequilla. Decorado con crema de queso y frutos mixtos.",
+          "descripcion": "Tradicional pie de queso chiapaneco con una base de masa de mantequilla. Decorado con crema de queso y frutos mixtos.",
           "categoria": "Tartas, flanes & pies",
           "imagen": "IMG_5531",
           "observaciones": [],
@@ -878,7 +799,7 @@
         {
           "id": "pie_de_nuez",
           "nombre": "Pie de nuez",
-          "descripcion": "Exquisito pie de nuez pecana con base de mantequilla.",
+          "descripcion": "Exquisito pie de nuez pecana con base de masa de mantequilla.",
           "categoria": "Tartas, flanes & pies",
           "imagen": "IMG_5532",
           "observaciones": [],
@@ -893,7 +814,7 @@
         {
           "id": "pie_de_manzana",
           "nombre": "Pie de manzana",
-          "descripcion": "Tradicional pie con base de mantequilla y manzanas granny smith.",
+          "descripcion": "Exquísito pie elaborado con: base de mantequilla, relleno de crema de almendras y manzanas cocinadas en vino blanco, decorada con una capa de mananza en medias lunas y azúcar glas.",
           "categoria": "Tartas, flanes & pies",
           "imagen": "IMG_5532",
           "observaciones": [],
@@ -906,7 +827,7 @@
           ]
         },
         {
-          "id": "tarta_de_lim_n",
+          "id": "tarta_de_limon",
           "nombre": "Tarta de limón",
           "descripcion": "Exquisita tarta elaborada con base de mantequilla, relleno de crema de limón y decorado con merengue italiano flameado.",
           "categoria": "Tartas, flanes & pies",
