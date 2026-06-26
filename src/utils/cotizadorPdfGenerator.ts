@@ -308,6 +308,37 @@ export function generateCotizacionPdf(payload: CotizacionData) {
     doc.setTextColor(0, 0, 0);
     cursorY += 8;
 
+    // ============== DATOS DE PAGO ==============
+    if (cursorY + 18 > 200) {
+        addFooter(doc, pageNum);
+        doc.addPage();
+        pageNum++;
+        cursorY = 12;
+    }
+    cursorY = addSectionTitle(doc, 'Datos para Pago (Depósito/Transferencia)', cursorY);
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Banco:', 10, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('BBVA', 22, cursorY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Cuenta:', 45, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('0123340511', 57, cursorY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('CLABE:', 85, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('012100001233405110', 97, cursorY);
+    cursorY += 4.5;
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Beneficiario:', 10, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Proveedora de Alimentos Kadmiel SA de CV', 28, cursorY);
+    cursorY += 6;
+
     // ============== INCLUYE ==============
     if (cursorY + 40 > 200) {
         addFooter(doc, pageNum);
@@ -369,3 +400,259 @@ export function generateCotizacionPdf(payload: CotizacionData) {
     const filename = `Cotizacion_${mesa.nombre.replace(/\s+/g, '_')}_${chosen.personas}pax_${formatDate(hoy).replace(/\//g, '-')}.pdf`;
     doc.save(filename);
 }
+
+export interface PastelCotizacionData {
+    cliente: string;
+    telefono: string;
+    fechaEvento: string;
+    categoriaId: string;
+    categoriaTitulo: string;
+    pastelId: string;
+    pastelNombre: string;
+    pastelDescripcion: string;
+    tamanio: string;
+    rendimiento: string;
+    precio: number;
+    notas?: string;
+}
+
+export function generatePastelCotizacionPdf(payload: PastelCotizacionData) {
+    const doc = new jsPDF(PDF_CONFIG);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    let cursorY = 12;
+    let pageNum = 1;
+
+    // ============== HEADER ==============
+    doc.setFillColor(236, 72, 153); // pink-500
+    doc.rect(0, 0, pageWidth, 22, 'F');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.setTextColor(255, 255, 255);
+    doc.text('COTIZACIÓN PASTELES', pageWidth / 2, 9, { align: 'center' });
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.text('Pasteles y Postres Kadmiel', pageWidth / 2, 15, { align: 'center' });
+
+    // Folio y fechas
+    cursorY = 28;
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+
+    const hoy = new Date();
+    const validaHasta = new Date(hoy);
+    validaHasta.setDate(validaHasta.getDate() + 30);
+
+    doc.text('Folio:', 10, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`COT-${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}${String(hoy.getDate()).padStart(2, '0')}`, 22, cursorY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Fecha:', 75, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text(formatDate(hoy), 86, cursorY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Válida hasta:', 10, cursorY + 4);
+    doc.setFont('helvetica', 'normal');
+    doc.text(formatDate(validaHasta), 30, cursorY + 4);
+
+    cursorY += 10;
+
+    // ============== CLIENTE ==============
+    if (payload.cliente || payload.telefono || payload.fechaEvento) {
+        cursorY = addSectionTitle(doc, 'Datos del Cliente', cursorY);
+
+        doc.setFontSize(8.5);
+        if (payload.cliente) {
+            doc.setFont('helvetica', 'bold');
+            doc.text('Cliente:', 10, cursorY);
+            doc.setFont('helvetica', 'normal');
+            doc.text(payload.cliente, 25, cursorY);
+            cursorY += 4;
+        }
+        if (payload.telefono) {
+            doc.setFont('helvetica', 'bold');
+            doc.text('Teléfono:', 10, cursorY);
+            doc.setFont('helvetica', 'normal');
+            doc.text(payload.telefono, 25, cursorY);
+            cursorY += 4;
+        }
+        if (payload.fechaEvento) {
+            doc.setFont('helvetica', 'bold');
+            doc.text('Evento:', 10, cursorY);
+            doc.setFont('helvetica', 'normal');
+            const fechaFmt = payload.fechaEvento.split('-').reverse().join('/');
+            doc.text(fechaFmt, 25, cursorY);
+            cursorY += 4;
+        }
+        cursorY += 3;
+    }
+
+    // ============== PRODUCTO ==============
+    cursorY = addSectionTitle(doc, 'Detalles del Pastel / Postre', cursorY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(236, 72, 153);
+    doc.text(payload.pastelNombre, 10, cursorY);
+    doc.setTextColor(0, 0, 0);
+    cursorY += 5;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.text(`Categoría: ${payload.categoriaTitulo}`, 10, cursorY);
+    cursorY += 4;
+    doc.text(`Tamaño/Presentación: ${payload.tamanio}`, 10, cursorY);
+    cursorY += 4;
+    if (payload.rendimiento) {
+        doc.text(`Rendimiento aproximado: ${payload.rendimiento}`, 10, cursorY);
+        cursorY += 4;
+    }
+
+    if (payload.pastelDescripcion) {
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        const descLines = doc.splitTextToSize(payload.pastelDescripcion, pageWidth - 20);
+        doc.text(descLines, 10, cursorY);
+        doc.setTextColor(0, 0, 0);
+        cursorY += descLines.length * 3.5;
+    }
+    cursorY += 4;
+
+    if (payload.notas) {
+        doc.setFontSize(7.5);
+        doc.setTextColor(120, 80, 0);
+        const notasLines = doc.splitTextToSize(`Nota: ${payload.notas}`, pageWidth - 20);
+        doc.text(notasLines, 10, cursorY);
+        doc.setTextColor(0, 0, 0);
+        cursorY += notasLines.length * 3.5 + 2;
+    }
+
+    cursorY += 3;
+
+    // ============== TOTAL ==============
+    if (cursorY + 25 > 200) {
+        addFooter(doc, pageNum);
+        doc.addPage();
+        pageNum++;
+        cursorY = 12;
+    }
+
+    doc.setFillColor(254, 243, 244); // pink-50
+    doc.setDrawColor(236, 72, 153);
+    doc.setLineWidth(0.4);
+    doc.roundedRect(10, cursorY, pageWidth - 20, 22, 1.5, 1.5, 'FD');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(120, 80, 100);
+    doc.text('TOTAL DE LA COTIZACIÓN', pageWidth / 2, cursorY + 5, { align: 'center' });
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.setTextColor(20, 20, 20);
+    doc.text(formatCurrency(payload.precio), pageWidth / 2, cursorY + 14, { align: 'center' });
+
+    cursorY += 25;
+
+    const anticipo = payload.precio * 0.5;
+    const restante = payload.precio - anticipo;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(100, 100, 100);
+    const desgloseY = cursorY;
+    doc.text('Anticipo (50%):', 18, desgloseY);
+    doc.setFont('helvetica', 'bold');
+    doc.text(formatCurrency(anticipo), 50, desgloseY);
+
+    doc.setFont('helvetica', 'normal');
+    doc.text('Restante (al entregar):', 75, desgloseY);
+    doc.setFont('helvetica', 'bold');
+    doc.text(formatCurrency(restante), 122, desgloseY, { align: 'right' });
+
+    doc.setTextColor(0, 0, 0);
+    cursorY += 8;
+
+    // ============== DATOS DE PAGO ==============
+    if (cursorY + 18 > 200) {
+        addFooter(doc, pageNum);
+        doc.addPage();
+        pageNum++;
+        cursorY = 12;
+    }
+    cursorY = addSectionTitle(doc, 'Datos para Pago (Depósito/Transferencia)', cursorY);
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Banco:', 10, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('BBVA', 22, cursorY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Cuenta:', 45, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('0123340511', 57, cursorY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('CLABE:', 85, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('012100001233405110', 97, cursorY);
+    cursorY += 4.5;
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Beneficiario:', 10, cursorY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Proveedora de Alimentos Kadmiel SA de CV', 28, cursorY);
+    cursorY += 6;
+
+    // ============== PROCESO DE COMPRA ==============
+    if (cursorY + 55 > 200) {
+        addFooter(doc, pageNum);
+        doc.addPage();
+        pageNum++;
+        cursorY = 12;
+    }
+    cursorY = addSectionTitle(doc, 'Políticas y Proceso de Compra', cursorY);
+
+    doc.setFontSize(7.2);
+    // filter process related to orders/cakes
+    const proceso = data.procesoCompra.map((p, i) => `${i + 1}.  ${p}`);
+    const splitProceso = doc.splitTextToSize(proceso.join('\n'), pageWidth - 22);
+    doc.text(splitProceso, 11, cursorY);
+    cursorY += splitProceso.length * 3 + 3;
+
+    // ============== NOTA FINAL ==============
+    if (cursorY + 12 > 200) {
+        addFooter(doc, pageNum);
+        doc.addPage();
+        pageNum++;
+        cursorY = 12;
+    }
+
+    doc.setDrawColor(236, 72, 153);
+    doc.setLineWidth(0.3);
+    doc.line(10, cursorY, pageWidth - 10, cursorY);
+    cursorY += 5;
+
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(8);
+    doc.setTextColor(120, 80, 100);
+    doc.text('¡Gracias por permitirnos ser parte de su celebración!', pageWidth / 2, cursorY, { align: 'center' });
+    cursorY += 4;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(150, 150, 150);
+    doc.text('Precios sujetos a cambio sin previo aviso. Esta cotización no representa un compromiso de compra.', pageWidth / 2, cursorY, { align: 'center' });
+
+    // Footer de la última página
+    addFooter(doc, pageNum);
+
+    // Guardar
+    const filename = `Cotizacion_Pastel_${payload.pastelNombre.replace(/\s+/g, '_')}_${payload.tamanio.replace(/\s+/g, '_')}_${formatDate(hoy).replace(/\//g, '-')}.pdf`;
+    doc.save(filename);
+}
+

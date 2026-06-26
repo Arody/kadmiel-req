@@ -1,0 +1,941 @@
+{
+  "sharedSizes": {
+    "pasteles_clasicos": [
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "6\" BAJO - 15 cm (2 reb de pan / 1 relleno)",
+        "rendimiento": "6 a 8 porciones",
+        "precio": 220,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "6\" ALTO - 15 cm (3 reb de pan / 2 rellenos)",
+        "rendimiento": "10 a12 porciones",
+        "precio": 360,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "8\" BAJO - 20 cm (2 reb de pan / 1 relleno)",
+        "rendimiento": "16 px",
+        "precio": 520,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "8\" ALTO 20 cm (3 reb de pan / 2 rellenos)",
+        "rendimiento": "20 px",
+        "precio": 650,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "8\" DOBLE BARRIL - 20 cm (4 rebandas de pan / 2 rellenos)",
+        "rendimiento": "32 px",
+        "precio": 1040,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "10\" BAJO 30 cm (2 reb de pan / 1 relleno)",
+        "rendimiento": "30 px",
+        "precio": 975,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "10\" ALTO 30 cm (3 reb de pan / 2 rellenos)",
+        "rendimiento": "40 px",
+        "precio": 1300,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "12\" BAJO (2 reb de pan / 1 relleno)",
+        "rendimiento": "50-60 px",
+        "precio": 1950,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "12\" ALTO (3 reb de pan / 2 rellenos)",
+        "rendimiento": "60-70 px",
+        "precio": 2275,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "14\" (2 reb de pan / 1 relleno)",
+        "rendimiento": "70-80 px",
+        "precio": 2600,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "16\" (2 reb de pan / 1 relleno)",
+        "rendimiento": "90-100 px",
+        "precio": 3250,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "1/4 PLANCHA BAJA (2 reb de pan / 1 relleno)",
+        "rendimiento": "30 px",
+        "precio": 975,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "1/2 PLANCHA BAJA (2 reb de pan / 1 relleno)",
+        "rendimiento": "60 - 70 PX",
+        "precio": 2275,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "1/2 PLANCHA ALTA (3 reb de pan / 2 relleno)",
+        "rendimiento": "90-100 px",
+        "precio": 3250,
+        "notas": "Exclusivo pasteles de mantequilla. No apto para pasteles tres leches."
+      }
+    ],
+    "pasteles_gourmet": [
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "6\" BAJO - 15 cm (2 reb de pan / 1 relleno)",
+        "rendimiento": "6 a 8 porciones",
+        "precio": 300,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "6\" ALTO - 15 cm (3 reb de pan / 2 rellenos)",
+        "rendimiento": "10 a12 porciones",
+        "precio": 450,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "8\" BAJO - 20 cm (2 reb de pan / 1 relleno)",
+        "rendimiento": "16 px",
+        "precio": 640,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "8\" ALTO 20 cm (3 reb de pan / 2 rellenos)",
+        "rendimiento": "20 px",
+        "precio": 800,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "8\" DOBLE BARRIL - 20 cm (4 rebandas de pan / 2 rellenos)",
+        "rendimiento": "32 px",
+        "precio": 1280,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "10\" BAJO 30 cm (2 reb de pan / 1 relleno)",
+        "rendimiento": "30 px",
+        "precio": 1200,
+        "notas": ""
+      },
+      {
+        "grupo": "Tamaño estándar",
+        "tamanio": "10\" ALTO 30 cm (3 reb de pan / 2 rellenos)",
+        "rendimiento": "40 px",
+        "precio": 1600,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "12\" BAJO (2 reb de pan / 1 relleno)",
+        "rendimiento": "50-60 px",
+        "precio": 2400,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "12\" ALTO (3 reb de pan / 2 rellenos)",
+        "rendimiento": "60-70 px",
+        "precio": 2800,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "14\" (2 reb de pan / 1 relleno)",
+        "rendimiento": "70-80 px",
+        "precio": 3200,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "16\" (2 reb de pan / 1 relleno)",
+        "rendimiento": "80-100 px",
+        "precio": 4000,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "1/4 PLANCHA BAJA (2 reb de pan / 1 relleno)",
+        "rendimiento": "30 px",
+        "precio": 1200,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "1/2 PLANCHA BAJA (2 reb de pan / 1 relleno)",
+        "rendimiento": "60 px",
+        "precio": 2400,
+        "notas": ""
+      },
+      {
+        "grupo": "Eventos / plancha",
+        "tamanio": "1/2 PLANCHA ALTA (3 reb de pan / 2 relleno)",
+        "rendimiento": "90-100 px",
+        "precio": 4000,
+        "notas": "Exclusivo pasteles de mantequilla. No apto para pasteles tres leches."
+      }
+    ],
+    "tres_leches_clasicos": [
+      {
+        "grupo": "Tres leches clásicos",
+        "tamanio": "8\" - 20 cm BAJO (2 reb de pan / 1 relleno)",
+        "rendimiento": "16 px",
+        "precio": 450,
+        "notas": ""
+      },
+      {
+        "grupo": "Tres leches clásicos",
+        "tamanio": "10\" - 30 cm (2 reb de pan / 1 relleno)",
+        "rendimiento": "30 px",
+        "precio": 840,
+        "notas": ""
+      },
+      {
+        "grupo": "Tres leches clásicos",
+        "tamanio": "1/4 PLANCHA BAJA (2 reb de pan / 1 relleno)",
+        "rendimiento": "30 px",
+        "precio": 840,
+        "notas": ""
+      },
+      {
+        "grupo": "Tres leches clásicos",
+        "tamanio": "1/2 PLANCHA BAJA (2 reb de pan / 1 relleno)",
+        "rendimiento": "60 px",
+        "precio": 1690,
+        "notas": ""
+      }
+    ],
+    "tres_leches_premium": [
+      {
+        "grupo": "Tres leches premium",
+        "tamanio": "8\" - 20 cm BAJO",
+        "rendimiento": "16 px",
+        "precio": 640,
+        "notas": ""
+      },
+      {
+        "grupo": "Tres leches premium",
+        "tamanio": "10\" - 30 cm",
+        "rendimiento": "30 px",
+        "precio": 1200,
+        "notas": ""
+      },
+      {
+        "grupo": "Tres leches premium",
+        "tamanio": "1/4 PLANCHA BAJA",
+        "rendimiento": "30 px",
+        "precio": 1200,
+        "notas": ""
+      },
+      {
+        "grupo": "Tres leches premium",
+        "tamanio": "1/2 PLANCHA BAJA",
+        "rendimiento": "60 px",
+        "precio": 2400,
+        "notas": ""
+      }
+    ]
+  },
+  "categories": {
+    "pasteles_clasicos": {
+      "titulo": "Pasteles Clásicos",
+      "hasSharedSizes": true,
+      "products": [
+        {
+          "id": "kadmiel_frutos_rojos",
+          "nombre": "Kadmiel frutos rojos",
+          "descripcion": "Clásico pan de mantequilla, relleno de compota de frutos rojos, cubierto con crema chantilly. Decorado con compota de frutos rojos.",
+          "categoria": "Clásicos",
+          "notas": "",
+          "imagen": "IMG_5524"
+        },
+        {
+          "id": "tropical_de_maracuy_",
+          "nombre": "Tropical de maracuyá",
+          "descripcion": "Clásico pan de mantequilla, relleno de crema de maracuyá, cubierto con merengue italiano flameado.",
+          "categoria": "Clásicos",
+          "notas": "",
+          "imagen": "IMG_5524"
+        },
+        {
+          "id": "tropical_de_lim_n",
+          "nombre": "Tropical de limón",
+          "descripcion": "Clásico pan de mantequilla, relleno de crema de limón, cubierto con merengue italiano flameado.",
+          "categoria": "Clásicos",
+          "notas": "",
+          "imagen": "IMG_5524"
+        },
+        {
+          "id": "cl_sico_de_chocolate",
+          "nombre": "Clásico de chocolate",
+          "descripcion": "Pan de chocolate, relleno de chantilly  de chocolate con glaseado de ganache de chocolate. Cubierto con crema chantilly de chocolate y drip de chocolate.",
+          "categoria": "Clásicos",
+          "notas": "",
+          "imagen": "IMG_5524"
+        },
+        {
+          "id": "cl_sico_de_vainilla",
+          "nombre": "Clásico de vainilla",
+          "descripcion": "Clásico pan de mantequilla, relleno de crema pastelera de vainilla, cubierto con crema chantilly. Decorado con fruta.",
+          "categoria": "Pasteles Clásicos",
+          "notas": "",
+          "imagen": ""
+        },
+        {
+          "id": "fresas_con_crema",
+          "nombre": "Fresas con crema",
+          "descripcion": "Pan de mantequilla, relleno de crema de queso con trocitos de fresa, cubierto con crema chantilly. Decorado con mitades de fresas.",
+          "categoria": "Pasteles Clásicos",
+          "notas": "",
+          "imagen": ""
+        }
+      ]
+    },
+    "pasteles_gourmet": {
+      "titulo": "Pasteles Gourmet",
+      "hasSharedSizes": true,
+      "products": [
+        {
+          "id": "trufa_de_chocolate",
+          "nombre": "Trufa de chocolate",
+          "descripcion": "Pan de mantequilla de chocolate, relleno de ganache de chocolate y cubierto con ganache de chocolate semi amargo. Decorado con frutos rojos.",
+          "categoria": "Gourmet",
+          "notas": "",
+          "imagen": "IMG_5525"
+        },
+        {
+          "id": "chocolate_vino_tinto",
+          "nombre": "Chocolate & vino tinto",
+          "descripcion": "Pan elaborado con trocitos de chocolate y vino tinto, humectado con vino tinto especiado, relleno de crema de ganache de chocolate y frutos rojos al vino tinto. Cubierto con ganache de chocolate y decorado con fresas cubiertas de chocolate y frutos rojos.",
+          "categoria": "Gourmet",
+          "notas": "",
+          "imagen": "IMG_5525"
+        },
+        {
+          "id": "ferrero_rocher",
+          "nombre": "Ferrero Rocher",
+          "descripcion": "Pan de chocolate, relleno de crema de avellanas con trocitos de ferrero rocher. Cubierto con ganache de chocolate. Decorado con rosetones de chocolate y ferreros rocher.",
+          "categoria": "Gourmet",
+          "notas": "",
+          "imagen": "IMG_5525"
+        },
+        {
+          "id": "pastel_de_zanahoria",
+          "nombre": "Pastel de zanahoria",
+          "descripcion": "Pan de zanahoria con trocitos de nuez y pasitas, relleno y cubierto con crema de queso.",
+          "categoria": "Gourmet",
+          "notas": "",
+          "imagen": "IMG_5524"
+        },
+        {
+          "id": "red_velvet",
+          "nombre": "Red velvet",
+          "descripcion": "Pastel de terciopelo rojo; elaborado con cocoa gourmet, relleno y cubierto de crema de queso. Decorado con drip de chocolate en color rojo.",
+          "categoria": "Gourmet",
+          "notas": "",
+          "imagen": "IMG_5524"
+        },
+        {
+          "id": "lotus",
+          "nombre": "Lotus",
+          "descripcion": "Bizcocho de vainilla, relleno de crema biscoff lotus, cubierto con crema de lotus, decorado con caramelo y galleta lotus.",
+          "categoria": "Gourmet",
+          "notas": "",
+          "imagen": ""
+        },
+        {
+          "id": "carajillo",
+          "nombre": "Carajillo",
+          "descripcion": "Pan de mantequilla de café, humectado con lícor 43, relleno con crema mantequilla francesa de café, cubierto con buttercream de café y drip de chocolate. Decorado con macarrones de café, fruta y pipetas con lícor 43.",
+          "categoria": "Pasteles Gourmet",
+          "notas": "",
+          "imagen": ""
+        }
+      ]
+    },
+    "tres_leches_clasicos": {
+      "titulo": "Tres Leches Clásicos",
+      "hasSharedSizes": true,
+      "products": [
+        {
+          "id": "tres_leches_de_chocolate",
+          "nombre": "Tres leches de chocolate",
+          "descripcion": "Bizcocho de chocolate, relleno de crema de chocolate, cubierto con chantilly de chocolate y ganache de chocolate.",
+          "categoria": "Tres leches clásicos",
+          "notas": "",
+          "imagen": "IMG_5526"
+        },
+        {
+          "id": "tres_leches_de_cajeta_y_nuez",
+          "nombre": "Tres leches de cajeta y nuez",
+          "descripcion": "Bizcocho de vainilla, relleno de cajeta, cubierto de crema chantilly con salsa de cajeta y nuez.",
+          "categoria": "Tres leches clásicos",
+          "notas": "",
+          "imagen": "IMG_5526"
+        },
+        {
+          "id": "tres_leches_cl_sico_con_fruta",
+          "nombre": "Tres leches clásico con fruta",
+          "descripcion": "Bizcocho de vainilla, relleno de crema pastelera de vainilla, cubierto con crema chantilly. Decorado con mix de frutas de temporada.",
+          "categoria": "Tres leches clásicos",
+          "notas": "",
+          "imagen": "IMG_5526"
+        },
+        {
+          "id": "tres_leches_durazno",
+          "nombre": "Tres leches durazno",
+          "descripcion": "Bizcocho de vainilla, relleno de crema pastelera de durazno con trocitos de durazno, cubierto con crema chantilly.",
+          "categoria": "Tres leches clásicos",
+          "notas": "",
+          "imagen": "IMG_5526"
+        },
+        {
+          "id": "tres_leches_rompope",
+          "nombre": "Tres leches rompope",
+          "descripcion": "Bizcocho de vainilla, jarabe tres leches con rompope, relleno de crema pastelera y cubierto con crema chantilly.",
+          "categoria": "Tres leches clásicos",
+          "notas": "",
+          "imagen": "IMG_5526"
+        }
+      ]
+    },
+    "tres_leches_premium": {
+      "titulo": "Tres Leches Premium",
+      "hasSharedSizes": true,
+      "products": [
+        {
+          "id": "tres_leches_mango",
+          "nombre": "Tres leches mango",
+          "descripcion": "Bizcocho de vainilla, jarabe de tres leches de mango, relleno de compota de mango ataulfo y cubierto con crema chantilly Kadmiel, decorado con compota y trocitos de mango. *Sujeto a disponibilidad.",
+          "categoria": "Tres leches premium",
+          "notas": "",
+          "imagen": "IMG_5527"
+        },
+        {
+          "id": "tres_leches_biscoff_lotus",
+          "nombre": "Tres leches Biscoff Lotus",
+          "descripcion": "Bizcocho de vainilla, relleno de crema biscoff lotus, cubierto con crema de lotus, decorado con caramelo y galletas lotus.",
+          "categoria": "Tres leches premium",
+          "notas": "",
+          "imagen": "IMG_5527"
+        },
+        {
+          "id": "tres_leches_oreo",
+          "nombre": "Tres leches Oreo",
+          "descripcion": "Bizcocho de chocolate, relleno de crema de oreo, cubierto con chantilly y ganache de chocolate.",
+          "categoria": "Tres leches premium",
+          "notas": "",
+          "imagen": "IMG_5527"
+        },
+        {
+          "id": "tres_leches_bayle_s",
+          "nombre": "Tres leches Bayle's",
+          "descripcion": "Bizcocho de vainilla, jarabe de tres leches con bayle's, relleno y cubierto con crema de queso de bayle's.",
+          "categoria": "Tres leches premium",
+          "notas": "",
+          "imagen": "IMG_5527"
+        },
+        {
+          "id": "tres_leches_moka",
+          "nombre": "Tres leches Moka",
+          "descripcion": "Bizcocho de chocolate, jarabe de tres leches con licor de café, relleno con crema de café y cubierto de crema chantilly y drip de chocolate.",
+          "categoria": "Tres leches premium",
+          "notas": "",
+          "imagen": "IMG_5527"
+        },
+        {
+          "id": "tres_leches_fresas_con_crema",
+          "nombre": "Tres leches fresas con crema",
+          "descripcion": "Bizcocho de vainilla, jarabe de tres leches con fresa, relleno de cremoso de queso con fresas picadas y cubierto con crema chantilly de fresas. Decorado con fresas enteras.",
+          "categoria": "Tres leches premium",
+          "notas": "",
+          "imagen": "IMG_5527"
+        },
+        {
+          "id": "tres_leches_queso_zarzamora",
+          "nombre": "Tres leches queso & zarzamora",
+          "descripcion": "Bizcocho de vainilla, relleno de compota de zarzamora y cubierto con crema de queso y zarzamora.",
+          "categoria": "Tres leches premium",
+          "notas": "",
+          "imagen": "IMG_5527"
+        }
+      ]
+    },
+    "especiales_exclusivos": {
+      "titulo": "Especiales Exclusivos 2024",
+      "hasSharedSizes": false,
+      "products": [
+        {
+          "id": "arco_ris",
+          "nombre": "Arcoíris",
+          "descripcion": "Pastel clásico americano de 7 colores del arcoíris. Relleno cremoso de queso y cobertura buttercream americano. Decorado con sprinkles de colores.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5528",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "CHICO 6\" - 15 cm",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 700
+            },
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm",
+              "rendimiento": "Rinde: 20 - 24 px",
+              "precio": 1400
+            }
+          ]
+        },
+        {
+          "id": "cuachi_cheesecake_pastel",
+          "nombre": "Cuachi: Cheesecake + Pastel",
+          "descripcion": "Pastel de chocolate, humectado con jarabe de cocoa; en su relleno contiene un pastel de queso Philadelphia con compota de frutos rojos. Cubierto de crema ganache de chocolate y decorado con frutos rojos.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5528",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "CHICO 6\" - 15 cm",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 800
+            },
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm",
+              "rendimiento": "Rinde: 20 - 24 px",
+              "precio": 1600
+            }
+          ]
+        },
+        {
+          "id": "cheesecake_new_york",
+          "nombre": "Cheesecake New York",
+          "descripcion": "Pastel horneado de queso Philadelphia con base de galleta oreo. Decorado con fruta: durazno, kiwi, fresa y blueberries.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5528",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm",
+              "rendimiento": "Rinde: 16 - 20 px",
+              "precio": 680
+            },
+            {
+              "tamanio": "GRANDE 10\" - 30 cm",
+              "rendimiento": "Rinde: 24 px - 28 px",
+              "precio": 960
+            }
+          ]
+        },
+        {
+          "id": "mostach_n_de_fresas",
+          "nombre": "Mostachón de fresas",
+          "descripcion": "Pastel elaborado con nuez, cremoso de queso Philadelphia y decorado con fresas picadas.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5528",
+          "observaciones": [
+            "Precio corregido a mano; precio impreso tachado en la imagen."
+          ],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 520
+            },
+            {
+              "tamanio": "GRANDE 10\" - 30 cm",
+              "rendimiento": "Rinde: 20 px - 24 px",
+              "precio": 890
+            },
+            {
+              "tamanio": "FAMILIAR 1/4 PLANCHA",
+              "rendimiento": "Rinde: 30 px",
+              "precio": 1400
+            }
+          ]
+        },
+        {
+          "id": "mostach_n_de_frutos_mixtos",
+          "nombre": "Mostachón de frutos mixtos",
+          "descripcion": "Pastel elaborado con nuez, cremoso de queso Philadelphia y decorado con frutos mixtos; fresas, moras, kiwi y durazno.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5528",
+          "observaciones": [
+            "Precio corregido a mano; precio impreso tachado en la imagen."
+          ],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 520
+            },
+            {
+              "tamanio": "GRANDE 10\" - 30 cm",
+              "rendimiento": "Rinde: 20 px - 24 px",
+              "precio": 850
+            },
+            {
+              "tamanio": "FAMILIAR 1/4 PLANCHA",
+              "rendimiento": "Rinde: 30 px",
+              "precio": 1200
+            }
+          ]
+        },
+        {
+          "id": "mostach_n_de_banano_caramelo",
+          "nombre": "Mostachón de banano & caramelo",
+          "descripcion": "Pastel elaborado con nuez, cremoso de queso Philadelphia y decorado con banano, caramelo y nuez.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5529",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 450
+            },
+            {
+              "tamanio": "GRANDE 10\" - 30 cm",
+              "rendimiento": "Rinde: 20 px - 24 px",
+              "precio": 850
+            },
+            {
+              "tamanio": "FAMILIAR 1/4 PLANCHA",
+              "rendimiento": "Rinde: 30 px",
+              "precio": 1200
+            }
+          ]
+        },
+        {
+          "id": "mil_hojas_de_frutos",
+          "nombre": "Mil hojas de frutos",
+          "descripcion": "Pastel con base de masa hojaldre caramelizada, relleno de crema diplomática de vainilla y fruta mixta; fresas, moras y durazno. Decorado con frutas.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5529",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 20 x 20 cm",
+              "rendimiento": "10 px (de 10 cm x 4 cm)",
+              "precio": 480
+            },
+            {
+              "tamanio": "GRANDE 30 x 30 cm",
+              "rendimiento": "20 px (de 10 cm x 4 cm)",
+              "precio": 860
+            }
+          ]
+        },
+        {
+          "id": "mil_hojas_de_chocolate",
+          "nombre": "Mil hojas de chocolate",
+          "descripcion": "Pastel elaborado con capas crujientes de hojaldre caramelizado, relleno de crema diplomática de chocolate y ganache de chocolate. Decorado con crema de chocolate y piezas de chocolate.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5529",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 20 x 20 cm",
+              "rendimiento": "10 px (de 10 cm x 4 cm)",
+              "precio": 580
+            },
+            {
+              "tamanio": "GRANDE 30 x 30 cm",
+              "rendimiento": "20 px (de 10 cm x 4 cm)",
+              "precio": 980
+            }
+          ]
+        },
+        {
+          "id": "pastel_de_letra_o_n_mero",
+          "nombre": "Pastel de letra o número",
+          "descripcion": "Elaborado con bizcocho de naranja, relleno de crema mousseline de vainilla y frutos rojos. Decorado con crema mousseline, frutos mixtos, 3 rosas del color de su elección (sujeto a disponibilidad de la temporada), 3 macarrones, merengues o dulces y perlas de azúcar comestible.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5529",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "1 pza",
+              "rendimiento": "Tamaño de la letra aproximado 30 cm. Se entrega en base de 35 x 35 cm. Rinde 12 a 15 porciones.",
+              "precio": 850
+            },
+            {
+              "tamanio": "2 pzas",
+              "rendimiento": "Tamaño de la letra aproximado 30 cm. Se entrega en base de 35 x 35 cm. Rinde 12 a 15 porciones.",
+              "precio": 1600
+            }
+          ]
+        },
+        {
+          "id": "pastel_carajillo",
+          "nombre": "Pastel carajillo",
+          "descripcion": "Elaborado con pan de mantequilla de café, humectado con licor 43, relleno con crema mantequilla francesa de café, cubierto con buttercream de café y drip de chocolate. Decorado con macarrones de café, fruta y pipetas de licor 43.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5529",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "CHICO 6\" - 15 cm (Alto)",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 850
+            },
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
+              "rendimiento": "Rinde: 20 - 24 px",
+              "precio": 1400
+            }
+          ]
+        },
+        {
+          "id": "pastel_candy_cake",
+          "nombre": "Pastel candy cake",
+          "descripcion": "Pastel elaborado con pan de mantequilla, relleno de crema de nutella con queso. Cobertura buttercream con drip de chocolate. Decorado con gomitas, dulces, chocolates y caramelos.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5530",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "CHICO 6\" - 15 cm (Alto)",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 590
+            },
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
+              "rendimiento": "Rinde: 20 - 24 px",
+              "precio": 1200
+            }
+          ]
+        },
+        {
+          "id": "pastel_napolitano",
+          "nombre": "Pastel napolitano",
+          "descripcion": "Pan de vainilla, chocolate y fresa. Relleno de crema pastelera de chocolate y de vainilla. Cobertura buttercream y sprinkles. Decorado con bolas de buttercream de fresa, vainilla y chocolate, cereza y cono de helado.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5530",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "CHICO 6\" - 15 cm (Alto)",
+              "rendimiento": "Rinde: 10 - 12 px",
+              "precio": 490
+            },
+            {
+              "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
+              "rendimiento": "Rinde: 20 - 24 px",
+              "precio": 980
+            }
+          ]
+        },
+        {
+          "id": "tiramis_",
+          "nombre": "Tiramisú",
+          "descripcion": "Clásico pastel italiano, elaborado con bizcocho sorrento; de almendra y café, embebido con licor de café y expresso. Relleno de una exquisita mousse de queso mascarpone. Decorado con cocoa extra brute.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5530",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 20 x 20 cm",
+              "rendimiento": "10 px (de 10 cm x 4 cm)",
+              "precio": 700
+            },
+            {
+              "tamanio": "GRANDE 25 x 35 cm",
+              "rendimiento": "20 px (de 8 cm x 5 cm)",
+              "precio": 1200
+            }
+          ]
+        },
+        {
+          "id": "fraisier_fresa_",
+          "nombre": "Fraisier (fresa)",
+          "descripcion": "Pastel francés, elaborado con un ligero bizcocho de vainilla embebido con un jarabe artesanal de fresa, relleno de una tersa crema diplomática de vainilla con fresas. Decorado con una gelatina y fresas naturales.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5530",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 20 cm diámetro",
+              "rendimiento": "Rinde: 16 px",
+              "precio": 650
+            },
+            {
+              "tamanio": "GRANDE 30 cm diámetro",
+              "rendimiento": "Rinde: 24 px",
+              "precio": 1200
+            }
+          ]
+        },
+        {
+          "id": "mousse_de_mango",
+          "nombre": "Mousse de mango",
+          "descripcion": "Pastel elaborado con base de galleta de vainilla, mousse y gelatina de mango ataulfo. Decorado con cubos de mango, crema ligera de mango y crema de vainilla.",
+          "categoria": "Especiales exclusivos 2024",
+          "imagen": "IMG_5530",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "MEDIANO 20 cm diámetro",
+              "rendimiento": "Rinde: 16 px",
+              "precio": 650
+            },
+            {
+              "tamanio": "GRANDE 30 cm diámetro",
+              "rendimiento": "Rinde: 24 px",
+              "precio": 1200
+            }
+          ]
+        }
+      ]
+    },
+    "tartas_flanes_pies": {
+      "titulo": "Tartas Flanes Pies",
+      "hasSharedSizes": false,
+      "products": [
+        {
+          "id": "flan_parisino",
+          "nombre": "Flan parisino",
+          "descripcion": "Clásico flan francés, elaborado con una base de mantequilla y decorado con frutos rojos.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5531",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 420
+            }
+          ]
+        },
+        {
+          "id": "flan_napolitano",
+          "nombre": "Flan napolitano",
+          "descripcion": "Clásico postre mexicano elaborado con un toque de brandy.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5531",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 380
+            }
+          ]
+        },
+        {
+          "id": "tarta_de_la_vi_a_cheesecake_vasco",
+          "nombre": "Tarta de la viña / cheesecake vasco",
+          "descripcion": "Postre originado en España. Consiste en un pastel muy cremoso con un toque a vainilla; se elabora con 100% queso crema y se hornea sin costra de galleta. Decorado con frutos del bosque.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5531",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 450
+            }
+          ]
+        },
+        {
+          "id": "pie_de_queso_chiapaneco",
+          "nombre": "Pie de queso chiapaneco",
+          "descripcion": "Tradicional pie de queso chiapaneco con una base de mantequilla. Decorado con crema de queso y frutos mixtos.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5531",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 390
+            }
+          ]
+        },
+        {
+          "id": "pie_de_nuez",
+          "nombre": "Pie de nuez",
+          "descripcion": "Exquisito pie de nuez pecana con base de mantequilla.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5532",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 450
+            }
+          ]
+        },
+        {
+          "id": "pie_de_manzana",
+          "nombre": "Pie de manzana",
+          "descripcion": "Tradicional pie con base de mantequilla y manzanas granny smith.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5532",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 420
+            }
+          ]
+        },
+        {
+          "id": "tarta_de_lim_n",
+          "nombre": "Tarta de limón",
+          "descripcion": "Exquisita tarta elaborada con base de mantequilla, relleno de crema de limón y decorado con merengue italiano flameado.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5532",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 390
+            }
+          ]
+        },
+        {
+          "id": "tarta_de_frutos_del_bosque",
+          "nombre": "Tarta de frutos del bosque",
+          "descripcion": "Exquisita tarta elaborada con base de mantequilla, rellena de frangipane de almendras y crema pastelera artesanal de vainilla. Decorada con frutos del bosque.",
+          "categoria": "Tartas, flanes & pies",
+          "imagen": "IMG_5532",
+          "observaciones": [],
+          "tamanios": [
+            {
+              "tamanio": "20 cm diámetro",
+              "rendimiento": "Rinde: 10 px",
+              "precio": 450
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
