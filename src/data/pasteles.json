@@ -506,7 +506,7 @@
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
               "rendimiento": "Rinde: 20 - 24 px",
-              "precio": 1400
+              "precio": 1600
             }
           ]
         },
@@ -541,12 +541,12 @@
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
               "rendimiento": "Rinde: 16 - 20 px",
-              "precio": 680
+              "precio": 700
             },
             {
               "tamanio": "GRANDE 10\" - 30 cm",
               "rendimiento": "Rinde: 24 px - 28 px",
-              "precio": 960
+              "precio": 980
             }
           ]
         },
@@ -563,7 +563,7 @@
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
               "rendimiento": "Rinde: 10 - 12 px",
-              "precio": 520
+              "precio": 560
             },
             {
               "tamanio": "GRANDE 10\" - 30 cm",
@@ -590,17 +590,17 @@
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
               "rendimiento": "Rinde: 10 - 12 px",
-              "precio": 520
+              "precio": 560
             },
             {
               "tamanio": "GRANDE 10\" - 30 cm",
               "rendimiento": "Rinde: 20 px - 24 px",
-              "precio": 850
+              "precio": 890
             },
             {
               "tamanio": "FAMILIAR 1/4 PLANCHA",
               "rendimiento": "Rinde: 30 px",
-              "precio": 1200
+              "precio": 1400
             }
           ]
         },
@@ -615,17 +615,17 @@
             {
               "tamanio": "MEDIANO 8\" - 20 cm",
               "rendimiento": "Rinde: 10 - 12 px",
-              "precio": 450
+              "precio": 495
             },
             {
               "tamanio": "GRANDE 10\" - 30 cm",
               "rendimiento": "Rinde: 20 px - 24 px",
-              "precio": 850
+              "precio": 935
             },
             {
               "tamanio": "FAMILIAR 1/4 PLANCHA",
               "rendimiento": "Rinde: 30 px",
-              "precio": 1200
+              "precio": 1320
             }
           ]
         },
@@ -640,12 +640,12 @@
             {
               "tamanio": "MEDIANO 20 x 20 cm",
               "rendimiento": "10 px (de 10 cm x 4 cm)",
-              "precio": 480
+              "precio": 530
             },
             {
               "tamanio": "GRANDE 30 x 30 cm",
               "rendimiento": "20 px (de 10 cm x 4 cm)",
-              "precio": 860
+              "precio": 946
             }
           ]
         },
@@ -660,7 +660,7 @@
             {
               "tamanio": "MEDIANO 20 x 20 cm",
               "rendimiento": "10 px (de 10 cm x 4 cm)",
-              "precio": 580
+              "precio": 640
             },
             {
               "tamanio": "GRANDE 30 x 30 cm",
@@ -725,7 +725,7 @@
             {
               "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
               "rendimiento": "Rinde: 20 - 24 px",
-              "precio": 1200
+              "precio": 1400
             }
           ]
         },
@@ -745,7 +745,7 @@
             {
               "tamanio": "MEDIANO 8\" - 20 cm (Alto)",
               "rendimiento": "Rinde: 20 - 24 px",
-              "precio": 980
+              "precio": 1200
             }
           ]
         },
@@ -760,12 +760,12 @@
             {
               "tamanio": "MEDIANO 20 x 20 cm",
               "rendimiento": "10 px (de 10 cm x 4 cm)",
-              "precio": 700
+              "precio": 850
             },
             {
               "tamanio": "GRANDE 25 x 35 cm",
               "rendimiento": "20 px (de 8 cm x 5 cm)",
-              "precio": 1200
+              "precio": 1450
             }
           ]
         },
@@ -826,7 +826,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 420
+              "precio": 550
             }
           ]
         },
@@ -841,7 +841,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 380
+              "precio": 400
             }
           ]
         },
@@ -856,7 +856,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 450
+              "precio": 540
             }
           ]
         },
@@ -871,7 +871,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 390
+              "precio": 400
             }
           ]
         },
@@ -886,7 +886,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 450
+              "precio": 540
             }
           ]
         },
@@ -901,7 +901,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 420
+              "precio": 540
             }
           ]
         },
@@ -916,7 +916,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 390
+              "precio": 450
             }
           ]
         },
@@ -931,7 +931,7 @@
             {
               "tamanio": "20 cm diámetro",
               "rendimiento": "Rinde: 10 px",
-              "precio": 450
+              "precio": 490
             }
           ]
         }
