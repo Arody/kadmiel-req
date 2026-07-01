@@ -11,6 +11,7 @@ import { OrderList } from './features/orders/OrderList';
 import { OrderDetail } from './features/orders/OrderDetail';
 import { StockManager } from './features/stock/StockManager';
 import { Cotizador } from './features/cotizador/Cotizador';
+import { SpecialClientOrders } from './features/special-client-orders/SpecialClientOrders';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
              <Route path="/orders/:id" element={<OrderDetail />} />
              <Route path="/stock" element={<StockManager />} />
              <Route path="/cotizador" element={<Cotizador />} />
+             <Route path="/pedidos-clientes-especiales" element={<SpecialClientOrders />} />
            </Route>
         </Route>
 
@@ -37,4 +39,3 @@ function App() {
 }
 
 export default App
-
